@@ -16,6 +16,7 @@ M_DEPS += ../../library/axi_ad9361/axi_ad9361_delay.tcl
 
 LIB_DEPS += axi_ad9361
 LIB_DEPS += axi_dmac
+LIB_DEPS += axi_tdd
 LIB_DEPS += util_pack/util_cpack2
 LIB_DEPS += util_pack/util_upack2
 
