@@ -1,6 +1,6 @@
 // ***************************************************************************
 // ***************************************************************************
-// Copyright 2014 - 2017 (c) Analog Devices, Inc. All rights reserved.
+// Copyright 2014 - 2022 (c) Analog Devices, Inc. All rights reserved.
 //
 // In this HDL repository, there are many different and unique modules, consisting
 // of various HDL (Verilog or VHDL) components. The individual modules are
@@ -131,15 +131,13 @@ module system_top (
   assign gpio_i[40:38] = gpio_o[40:38];
   assign gpio_i[36] = gpio_o[36];
 
-  generate
-    for (i = 0; i < 16; i = i + 1) begin: adc_db_io
-      ad_iobuf i_iobuf_adc_db (
-        .dio_t(adc_db_t),
-        .dio_i(adc_db_o[i]),
-        .dio_o(adc_db_i[i]),
-        .dio_p(adc_db[i]));
-    end
-  endgenerate
+  ad_iobuf #(
+    .DATA_WIDTH(16)
+  ) i_iobuf_adc_db (
+    .dio_t(adc_db_t),
+    .dio_i(adc_db_o[15:0]),
+    .dio_o(adc_db_i[15:0]),
+    .dio_p(adc_db[15:0]));
 
   ad_iobuf #(
     .DATA_WIDTH(32)
