@@ -20,6 +20,7 @@ set_property  -dict {PACKAGE_PIN  U4  IOSTANDARD LVCMOS18}   [get_ports spi_csn_
 set_property  -dict {PACKAGE_PIN  V2  IOSTANDARD LVCMOS18}   [get_ports spi_csn_adc]       ; ## H7  FMC_HPC0_LA02_P
 set_property  -dict {PACKAGE_PIN  AB4 IOSTANDARD LVCMOS18}   [get_ports spi_clk]           ; ## D8  FMC_HPC0_LA01_CC_P
 set_property  -dict {PACKAGE_PIN  AC4 IOSTANDARD LVCMOS18}   [get_ports spi_sdio]          ; ## D9  FMC_HPC0_LA01_CC_N
+set_property  -dict {PACKAGE_PIN  M10 IOSTANDARD LVCMOS18}   [get_ports spi_sdo]           ; ## C26 FMC_HPC0_LA27_P
 
 set_property  -dict {PACKAGE_PIN  V1  IOSTANDARD LVCMOS18}   [get_ports pwdn]              ; ## H8  FMC_HPC0_LA02_N
 set_property  -dict {PACKAGE_PIN  U5  IOSTANDARD LVCMOS18}   [get_ports rstb]              ; ## H13 FMC_HPC0_LA07_P

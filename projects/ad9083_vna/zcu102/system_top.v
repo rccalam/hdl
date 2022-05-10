@@ -57,7 +57,8 @@ module system_top (
   output                  pwdn,
   output                  rstb,
 
-  inout                   spi_sdio,
+  output                  spi_sdio,
+  input                   spi_sdo,
   output                  spi_csn_clk,
   output                  spi_csn_adc,
   output                  spi_clk,
@@ -122,11 +123,8 @@ module system_top (
   wire                    rx_ref_core_clk0;
 
   wire         [ 2:0]     spi0_csn;
-  wire                    spi0_clk;
   wire                    spi0_mosi;
   wire                    spi0_miso;
-  wire                    spi_miso;
-  wire                    spi_mosi;
 
   wire         [ 2:0]     spi_bus0_csn;
   wire         [ 1:0]     spi_bus1_csn;
@@ -145,9 +143,6 @@ module system_top (
 
   assign spi_csn_adc = spi0_csn[0];
   assign spi_csn_clk = spi0_csn[1];
-  assign spi_clk = spi0_clk;
-  assign spi_mosi = spi0_mosi;
-  assign spi0_miso = spi_miso;
 
   assign spi_bus0_csn_sen = spi_bus0_csn[2];
   assign spi_bus0_csn_f2 = spi_bus0_csn[1];
@@ -211,16 +206,6 @@ module system_top (
     .O (ref_clk0),
     .ODIV2 ());
 
-  ad_3w_spi #(
-    .NUM_OF_SLAVES(2))
-    i_spi (
-    .spi_csn(spi0_csn[1:0]),
-    .spi_clk(spi_clk),
-    .spi_mosi(spi_mosi),
-    .spi_miso(spi_miso),
-    .spi_sdio(spi_sdio),
-    .spi_dir());
-
   assign adc_lvsft_en  = spi_csn_adc;
   assign clkd_lvsft_en = spi_csn_clk;
 
@@ -270,10 +255,10 @@ module system_top (
     .rx_core_clk_0 (rx_ref_core_clk0),
     .rx_sync_0 (rx_sync),
     .rx_sysref_0 (sysref),
-    .spi0_sclk (spi0_clk),
+    .spi0_sclk (spi_clk),
     .spi0_csn (spi0_csn),
-    .spi0_miso (spi0_miso),
-    .spi0_mosi (spi0_mosi),
+    .spi0_miso (spi_sdo),
+    .spi0_mosi (spi_sdio),
     .spi1_csn (spi_bus0_csn),
     .spi1_miso (spi_bus0_sdo),
     .spi1_mosi (spi_bus0_sdi),
