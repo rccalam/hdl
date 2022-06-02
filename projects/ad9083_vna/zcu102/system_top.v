@@ -108,6 +108,8 @@ module system_top (
   output                  gpio_sw4_v1,
   output                  gpio_sw4_v2,
 
+  output      [ 7:0]      prten,
+
   output                  adl5960x_sync1);
 
   // internal signals
@@ -138,6 +140,7 @@ module system_top (
   wire                    spi_adl5960_2_clk_s;
   wire                    spi_adl5960_2_mosi_s;
   wire                    spi_adl5960_2_miso_s;
+  wire         [ 2:0]     pr_check;
 
   // assignments
 
@@ -146,7 +149,6 @@ module system_top (
 
   assign spi_bus0_csn_sen = spi_bus0_csn[2];
   assign spi_bus0_csn_f2 = spi_bus0_csn[1];
-  assign spi_bus0_csn_f1 = spi_bus0_csn[0];
 
   assign spi_bus1_csn_dat1 = spi_bus1_csn[0];
   assign spi_bus1_csn_dat2 = spi_bus1_csn[1];
@@ -180,6 +182,11 @@ module system_top (
   assign adl5960x_sync1 = gpio_o[35];
   assign rstb = gpio_o[33];
   assign pwdn = gpio_o[32];
+
+  assign pr_check = {gpio_o[38],gpio_o[40],gpio_o[39]};
+  assign prten = (pr_check == 3'b000) ? 8'd1 :
+                 (pr_check == 3'b001) ? 8'd2 :
+                 (pr_check == 3'b010) ? 8'd4 : 8'd0;
 
   assign gpio_i[94:32] = gpio_o[94:32];
   assign gpio_i[31:21] = gpio_o[31:21];

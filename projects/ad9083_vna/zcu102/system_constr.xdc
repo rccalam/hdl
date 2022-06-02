@@ -80,6 +80,15 @@ set_property  -dict {PACKAGE_PIN  AC6  IOSTANDARD LVCMOS18}                     
 set_property  -dict {PACKAGE_PIN  N9   IOSTANDARD LVCMOS18}                                 [get_ports spi_adl5960_2_csn7] ; ## C22 FMC_HPC0_LA18_P_CC
 set_property  -dict {PACKAGE_PIN  N8   IOSTANDARD LVCMOS18}                                 [get_ports spi_adl5960_2_csn8] ; ## C23 FMC_HPC0_LA18_N_CC
 
+set_property  -dict {PACKAGE_PIN  L12  IOSTANDARD LVCMOS18 PULLTYPE PULLUP}                 [get_ports prten[0]]           ; ## H28 FMC_HPC0_LA24_P
+set_property  -dict {PACKAGE_PIN  K12  IOSTANDARD LVCMOS18 PULLTYPE PULLUP}                 [get_ports prten[1]]           ; ## H29 FMC_HPC0_LA24_N
+set_property  -dict {PACKAGE_PIN  T7   IOSTANDARD LVCMOS18 PULLTYPE PULLUP}                 [get_ports prten[2]]           ; ## H31 FMC_HPC0_LA28_P
+set_property  -dict {PACKAGE_PIN  T6   IOSTANDARD LVCMOS18 PULLTYPE PULLUP}                 [get_ports prten[3]]           ; ## H32 FMC_HPC0_LA28_N
+set_property  -dict {PACKAGE_PIN  V6   IOSTANDARD LVCMOS18 PULLTYPE PULLUP}                 [get_ports prten[4]]           ; ## H34 FMC_HPC0_LA30_P
+set_property  -dict {PACKAGE_PIN  U6   IOSTANDARD LVCMOS18 PULLTYPE PULLUP}                 [get_ports prten[5]]           ; ## H35 FMC_HPC0_LA30_N
+set_property  -dict {PACKAGE_PIN  U11  IOSTANDARD LVCMOS18 PULLTYPE PULLUP}                 [get_ports prten[6]]           ; ## H37 FMC_HPC0_LA32_P
+set_property  -dict {PACKAGE_PIN  T11  IOSTANDARD LVCMOS18 PULLTYPE PULLUP}                 [get_ports prten[7]]           ; ## H38 FMC_HPC0_LA32_N
+
 # clocks
 create_clock -period 2 -name rx_ref_clk [get_ports ref_clk0_p]
 create_clock -period 8 -name rx_ref_clk2 [get_ports glblclk_p]
