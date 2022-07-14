@@ -71,6 +71,9 @@ module axi_tdd_ng #(
   input  logic                     sync_in,
   output logic                     sync_out,
 
+  // active state
+  output logic                     tdd_active,
+
   // output channels
   output logic [CHANNEL_COUNT-1:0] tdd_channel,
 
@@ -145,6 +148,9 @@ module axi_tdd_ng #(
   // Asserted to indicate the end of a tdd frame. This allows the channels to
   // reset outputs which are still open due to a potential misconfiguration.
   logic                         tdd_endof_frame;
+
+  // Active state output
+  assign tdd_active = tdd_cstate == RUNNING ? 1'b1 : 1'b0;
 
   axi_tdd_ng_regmap #(
     .ID                (ID),
