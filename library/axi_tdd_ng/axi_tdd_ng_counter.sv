@@ -36,7 +36,8 @@
 
 module axi_tdd_ng_counter #(
   parameter  REGISTER_WIDTH = 32,
-  parameter  BURST_COUNT_WIDTH = 32) (
+  parameter  BURST_COUNT_WIDTH = 32
+) (
 
   input  logic                         clk,
   input  logic                         resetn,
@@ -51,7 +52,8 @@ module axi_tdd_ng_counter #(
 
   output logic [REGISTER_WIDTH-1:0]    tdd_counter,
   output axi_tdd_ng_pkg::state_t       tdd_cstate,
-  output logic                         tdd_endof_frame);
+  output logic                         tdd_endof_frame
+);
 
   // package import
   import axi_tdd_ng_pkg::*;

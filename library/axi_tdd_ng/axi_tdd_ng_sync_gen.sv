@@ -38,7 +38,8 @@ module axi_tdd_ng_sync_gen #(
   parameter  SYNC_INTERNAL = 1,
   parameter  SYNC_EXTERNAL = 0,
   parameter  SYNC_EXTERNAL_CDC = 0,
-  parameter  SYNC_COUNT_WIDTH = 64) (
+  parameter  SYNC_COUNT_WIDTH = 64
+) (
 
   input  logic                        clk,
   input  logic                        resetn,
@@ -50,7 +51,8 @@ module axi_tdd_ng_sync_gen #(
   input  logic                        tdd_sync_ext,
   input  logic                        tdd_sync_int,
   input  logic                        tdd_sync_soft,
-  input  logic [SYNC_COUNT_WIDTH-1:0] tdd_sync_period);
+  input  logic [SYNC_COUNT_WIDTH-1:0] tdd_sync_period
+);
 
   // internal signals
   logic [1:0] sync_source;
@@ -133,4 +135,3 @@ module axi_tdd_ng_sync_gen #(
   assign sync_out = (tdd_sync_ext & sync_source[0]) | (tdd_sync_int & sync_source[1]) | tdd_sync_soft;
 
 endmodule
-

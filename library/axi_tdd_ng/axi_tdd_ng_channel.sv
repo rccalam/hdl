@@ -36,7 +36,8 @@
 
 module axi_tdd_ng_channel #(
   parameter  DEFAULT_POLARITY = 0,
-  parameter  REGISTER_WIDTH = 32) (
+  parameter  REGISTER_WIDTH = 32
+) (
 
   input  logic                      clk,
   input  logic                      resetn,
@@ -51,7 +52,8 @@ module axi_tdd_ng_channel #(
   input  logic [REGISTER_WIDTH-1:0] asy_t_high,
   input  logic [REGISTER_WIDTH-1:0] asy_t_low,
 
-  output logic                      out);
+  output logic                      out
+);
 
   // package import
   import axi_tdd_ng_pkg::*;
@@ -135,4 +137,3 @@ module axi_tdd_ng_channel #(
   end
 
 endmodule
-

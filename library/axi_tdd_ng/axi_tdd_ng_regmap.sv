@@ -43,7 +43,8 @@ module axi_tdd_ng_regmap #(
   parameter  SYNC_INTERNAL = 1,
   parameter  SYNC_EXTERNAL = 0,
   parameter  SYNC_EXTERNAL_CDC = 0,
-  parameter  SYNC_COUNT_WIDTH = 64) (
+  parameter  SYNC_COUNT_WIDTH = 64
+) (
 
   // tdd clock
   input  logic                         tdd_clk,
@@ -75,7 +76,8 @@ module axi_tdd_ng_regmap #(
   input  logic                         up_rreq,
   input  logic [13:0]                  up_raddr,
   output logic [31:0]                  up_rdata,
-  output logic                         up_rack);
+  output logic                         up_rack
+);
 
   // package import
   import axi_tdd_ng_pkg::*;
@@ -249,7 +251,7 @@ module axi_tdd_ng_regmap #(
         assign tdd_sync_period = 'd0;
       end
     end
-  endgenerate 
+  endgenerate
 
   // channel register generation
 
@@ -439,4 +441,3 @@ module axi_tdd_ng_regmap #(
   assign asy_tdd_channel_off = up_tdd_channel_off;
 
 endmodule
-

@@ -62,7 +62,8 @@ module axi_tdd_ng #(
   // Whether to insert a CDC stage with false path constraint for the external
   // synchronization input.
   parameter         SYNC_EXTERNAL_CDC = 0,
-  parameter         SYNC_COUNT_WIDTH = 64) (
+  parameter         SYNC_COUNT_WIDTH = 64
+) (
 
   input  logic                     clk,
   input  logic                     resetn,
@@ -98,7 +99,8 @@ module axi_tdd_ng #(
   output logic                     s_axi_rvalid,
   output logic [ 1:0]              s_axi_rresp,
   output logic [31:0]              s_axi_rdata,
-  input  logic                     s_axi_rready);
+  input  logic                     s_axi_rready
+);
 
   // package import
   import axi_tdd_ng_pkg::*;
@@ -196,8 +198,7 @@ module axi_tdd_ng #(
     .tdd_sync_rst          (tdd_sync_rst),
     .tdd_sync_int          (tdd_sync_int),
     .tdd_sync_ext          (tdd_sync_ext),
-    .tdd_sync_soft         (tdd_sync_soft)
-  );
+    .tdd_sync_soft         (tdd_sync_soft));
 
   axi_tdd_ng_counter #(
     .REGISTER_WIDTH    (REGISTER_WIDTH),
@@ -216,8 +217,7 @@ module axi_tdd_ng #(
 
     .tdd_counter           (tdd_counter),
     .tdd_cstate            (tdd_cstate),
-    .tdd_endof_frame       (tdd_endof_frame)
-  );
+    .tdd_endof_frame       (tdd_endof_frame));
 
   axi_tdd_ng_sync_gen #(
     .SYNC_INTERNAL     (SYNC_INTERNAL),
@@ -235,8 +235,7 @@ module axi_tdd_ng #(
     .tdd_sync_int     (tdd_sync_int),
     .tdd_sync_ext     (tdd_sync_ext),
     .tdd_sync_soft    (tdd_sync_soft),
-    .tdd_sync_period  (tdd_sync_period)
-  );
+    .tdd_sync_period  (tdd_sync_period));
 
   genvar i;
   generate
@@ -258,14 +257,13 @@ module axi_tdd_ng #(
         .asy_t_high      (asy_tdd_channel_on[i]),
         .asy_t_low       (asy_tdd_channel_off[i]),
 
-        .out             (tdd_channel[i])
-        );
+        .out             (tdd_channel[i]));
     end
   endgenerate
 
   up_axi #(
-    .AXI_ADDRESS_WIDTH(16))
-  i_up_axi (
+    .AXI_ADDRESS_WIDTH(16)
+  ) i_up_axi (
     .up_rstn(s_axi_aresetn),
     .up_clk(s_axi_aclk),
 
@@ -294,8 +292,6 @@ module axi_tdd_ng #(
     .up_rreq(up_rreq),
     .up_raddr(up_raddr),
     .up_rdata(up_rdata),
-    .up_rack(up_rack)
-  );
+    .up_rack(up_rack));
 
 endmodule
-

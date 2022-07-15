@@ -1,4 +1,5 @@
 // ***************************************************************************
+// ***************************************************************************
 // Copyright 2022 (c) Analog Devices, Inc. All rights reserved.
 //
 // In this HDL repository, there are many different and unique modules, consisting
@@ -38,7 +39,7 @@ package axi_tdd_ng_pkg;
     IDLE    = 2'b00,
     ARMED   = 2'b01,
     WAITING = 2'b10,
-    RUNNING = 2'b11} state_t; 
+    RUNNING = 2'b11} state_t;
 
   localparam
     PCORE_VERSION = 32'h00010061,
@@ -99,4 +100,3 @@ package axi_tdd_ng_pkg;
     CH31 = 31;
 
 endpackage
-
