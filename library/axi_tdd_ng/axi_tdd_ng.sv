@@ -68,21 +68,21 @@ module axi_tdd_ng #(
   input  logic                     clk,
   input  logic                     resetn,
 
-  // sync signal
+  // Sync signal
   input  logic                     sync_in,
   output logic                     sync_out,
 
-  // active state
+  // Active state
   output logic                     tdd_active,
 
-  // output channels
+  // Output channels
   output logic [CHANNEL_COUNT-1:0] tdd_channel,
 
   // AXI BUS
   input  logic                     s_axi_aresetn,
   input  logic                     s_axi_aclk,
   input  logic                     s_axi_awvalid,
-  input  logic [15:0]              s_axi_awaddr,
+  input  logic [ 9:0]              s_axi_awaddr,
   input  logic [ 2:0]              s_axi_awprot,
   output logic                     s_axi_awready,
   input  logic                     s_axi_wvalid,
@@ -93,7 +93,7 @@ module axi_tdd_ng #(
   output logic [ 1:0]              s_axi_bresp,
   input  logic                     s_axi_bready,
   input  logic                     s_axi_arvalid,
-  input  logic [15:0]              s_axi_araddr,
+  input  logic [ 9:0]              s_axi_araddr,
   input  logic [ 2:0]              s_axi_arprot,
   output logic                     s_axi_arready,
   output logic                     s_axi_rvalid,
@@ -102,18 +102,18 @@ module axi_tdd_ng #(
   input  logic                     s_axi_rready
 );
 
-  // package import
+  // Package import
   import axi_tdd_ng_pkg::*;
 
   // Internal up bus, translated by up_axi
   logic                         up_rstn;
   logic                         up_clk;
   logic                         up_wreq;
-  logic [13:0]                  up_waddr;
+  logic [ 7:0]                  up_waddr;
   logic [31:0]                  up_wdata;
   logic                         up_wack;
   logic                         up_rreq;
-  logic [13:0]                  up_raddr;
+  logic [ 7:0]                  up_raddr;
   logic [31:0]                  up_rdata;
   logic                         up_rack;
 
@@ -150,9 +150,6 @@ module axi_tdd_ng #(
   // Asserted to indicate the end of a tdd frame. This allows the channels to
   // reset outputs which are still open due to a potential misconfiguration.
   logic                         tdd_endof_frame;
-
-  // Active state output
-  assign tdd_active = tdd_cstate == RUNNING ? 1'b1 : 1'b0;
 
   axi_tdd_ng_regmap #(
     .ID                (ID),
@@ -215,6 +212,7 @@ module axi_tdd_ng #(
     .asy_tdd_startup_delay (asy_tdd_startup_delay),
     .asy_tdd_frame_length  (asy_tdd_frame_length),
 
+    .tdd_active            (tdd_active),
     .tdd_counter           (tdd_counter),
     .tdd_cstate            (tdd_cstate),
     .tdd_endof_frame       (tdd_endof_frame));
@@ -262,7 +260,7 @@ module axi_tdd_ng #(
   endgenerate
 
   up_axi #(
-    .AXI_ADDRESS_WIDTH(16)
+    .AXI_ADDRESS_WIDTH(10)
   ) i_up_axi (
     .up_rstn(s_axi_aresetn),
     .up_clk(s_axi_aclk),

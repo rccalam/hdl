@@ -97,7 +97,7 @@ module axi_tdd_ng_sync_gen #(
     if (SYNC_INTERNAL == 1) begin
 
       logic                        tdd_sync_trigger = 1'b0;
-      logic [SYNC_COUNT_WIDTH-1:0] tdd_sync_counter = 'd0;
+      logic [SYNC_COUNT_WIDTH-1:0] tdd_sync_counter = '0;
 
       always @(posedge clk) begin
         if (resetn == 1'b0) begin
@@ -116,10 +116,10 @@ module axi_tdd_ng_sync_gen #(
       // sync counter
       always @(posedge clk) begin
         if (resetn == 1'b0) begin
-          tdd_sync_counter <= 'd0;
+          tdd_sync_counter <= '0;
         end else begin
           if (enable) begin
-            tdd_sync_counter <= (tdd_sync_trigger == 1'b1) ? 'd0 : tdd_sync_counter + 1'b1;
+            tdd_sync_counter <= (tdd_sync_trigger == 1'b1) ? '0 : tdd_sync_counter + 1'b1;
           end
         end
       end

@@ -50,6 +50,7 @@ module axi_tdd_ng_counter #(
   input  logic [REGISTER_WIDTH-1:0]    asy_tdd_startup_delay,
   input  logic [REGISTER_WIDTH-1:0]    asy_tdd_frame_length,
 
+  output logic                         tdd_active,
   output logic [REGISTER_WIDTH-1:0]    tdd_counter,
   output axi_tdd_ng_pkg::state_t       tdd_cstate,
   output logic                         tdd_endof_frame
@@ -66,10 +67,10 @@ module axi_tdd_ng_counter #(
   logic                         tdd_last_burst;
   state_t                       tdd_cstate_ns;
 
-  //initial values
+  // initial values
   initial begin
-    tdd_burst_counter = 'd0;
-    tdd_counter = 'd0;
+    tdd_burst_counter = '0;
+    tdd_counter = '0;
     tdd_cstate = IDLE;
     tdd_cstate_ns = IDLE;
     tdd_delay_done = 1'b0;
@@ -78,13 +79,10 @@ module axi_tdd_ng_counter #(
     tdd_last_burst = 1'b0;
   end
 
-  // ***************************************************************************
-  // tdd counter (state machine)
-  // ***************************************************************************
-
   (* direct_enable = "yes" *) logic enable;
   assign enable = tdd_enable;
 
+  // TDD counter FSM
   always @(posedge clk) begin
     if (resetn == 1'b0) begin
       tdd_cstate <= IDLE;
@@ -99,7 +97,6 @@ module axi_tdd_ng_counter #(
 
   always @* begin
     tdd_cstate_ns = tdd_cstate;
-
     case (tdd_cstate)
       IDLE : begin
         if (tdd_enable == 1'b1) begin
@@ -124,10 +121,13 @@ module axi_tdd_ng_counter #(
           tdd_cstate_ns = (tdd_endof_burst == 1'b1) ? ARMED : RUNNING;
         end
       end
-
     endcase
   end
 
+  // TDD active state
+  assign tdd_active = (tdd_cstate == RUNNING) ? 1'b1 : 1'b0;
+
+  // TDD control signals
   always @(posedge clk) begin
     if (resetn == 1'b0) begin
       tdd_delay_done <= 1'b0;
@@ -170,24 +170,34 @@ module axi_tdd_ng_counter #(
     end
   end
 
-  assign tdd_endof_burst = ((tdd_last_burst == 1'b1) && (tdd_endof_frame == 1'b1)) ? 1'b1 : 1'b0;
-
-  // tdd free running counter
   always @(posedge clk) begin
     if (resetn == 1'b0) begin
-      tdd_counter <= 'd0;
+      tdd_last_burst <= 1'b0;
+    end else begin
+      if (enable) begin
+        tdd_last_burst <= (tdd_burst_counter == 1) ? 1'b1 : 1'b0;
+      end
+    end
+  end
+
+  assign tdd_endof_burst = ((tdd_last_burst == 1'b1) && (tdd_endof_frame == 1'b1)) ? 1'b1 : 1'b0;
+
+  // TDD free running counter
+  always @(posedge clk) begin
+    if (resetn == 1'b0) begin
+      tdd_counter <= '0;
     end else begin
       if (enable) begin
         if ((tdd_sync && tdd_sync_rst) == 1'b1) begin
-          tdd_counter <= 'd0;
+          tdd_counter <= '0;
         end else begin
           if (tdd_cstate == WAITING) begin
-            tdd_counter <= (tdd_delay_done == 1'b1) ? 'd0 : tdd_counter + 1'b1;
+            tdd_counter <= (tdd_delay_done == 1'b1) ? '0 : tdd_counter + 1'b1;
           end else begin
             if (tdd_cstate == RUNNING) begin
-              tdd_counter <= (tdd_endof_frame == 1'b1) ? 'd0 : tdd_counter + 1'b1;
+              tdd_counter <= (tdd_endof_frame == 1'b1) ? '0 : tdd_counter + 1'b1;
             end else begin
-              tdd_counter <= 'd0;
+              tdd_counter <= '0;
             end
           end
         end
@@ -195,10 +205,10 @@ module axi_tdd_ng_counter #(
     end
   end
 
-  // tdd burst counter
+  // TDD burst counter
   always @(posedge clk) begin
     if (resetn == 1'b0) begin
-      tdd_burst_counter <= 'd0;
+      tdd_burst_counter <= '0;
     end else begin
       if (enable) begin
         if (tdd_cstate == ARMED) begin
@@ -208,16 +218,6 @@ module axi_tdd_ng_counter #(
             tdd_burst_counter <= tdd_burst_counter - 1'b1;
           end
         end
-      end
-    end
-  end
-
-  always @(posedge clk) begin
-    if (resetn == 1'b0) begin
-      tdd_last_burst <= 1'b0;
-    end else begin
-      if (enable) begin
-        tdd_last_burst <= (tdd_burst_counter == 1) ? 1'b1 : 1'b0;
       end
     end
   end

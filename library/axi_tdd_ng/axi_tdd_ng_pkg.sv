@@ -47,22 +47,23 @@ package axi_tdd_ng_pkg;
 
   // register address offset
   localparam
-    ADDR_TDD_VERSION       = 8'h00,
-    ADDR_TDD_ID            = 8'h01,
-    ADDR_TDD_SCRATCH       = 8'h02,
-    ADDR_TDD_IDENTIFY      = 8'h03,
-    ADDR_TDD_INTERFACE     = 8'h04,
-    ADDR_TDD_CONTROL       = 8'h10,
-    ADDR_TDD_CH_ENABLE     = 8'h11,
-    ADDR_TDD_CH_POLARITY   = 8'h12,
-    ADDR_TDD_BURST_COUNT   = 8'h13,
-    ADDR_TDD_STARTUP_DELAY = 8'h14,
-    ADDR_TDD_FRAME_LENGTH  = 8'h15,
-    ADDR_TDD_SYNC_CNT_LOW  = 8'h16,
-    ADDR_TDD_SYNC_CNT_HIGH = 8'h17,
-    ADDR_TDD_STATUS        = 8'h18,
-    ADDR_TDD_CH_ON         = 8'h20,
-    ADDR_TDD_CH_OFF        = 8'h21;
+    ADDR_TDD_VERSION        = 8'h00,
+    ADDR_TDD_ID             = 8'h01,
+    ADDR_TDD_SCRATCH        = 8'h02,
+    ADDR_TDD_IDENTIFICATION = 8'h03,
+    ADDR_TDD_INTERFACE      = 8'h04,
+    ADDR_TDD_DEF_POLARITY   = 8'h05,
+    ADDR_TDD_CONTROL        = 8'h10,
+    ADDR_TDD_CH_ENABLE      = 8'h11,
+    ADDR_TDD_CH_POLARITY    = 8'h12,
+    ADDR_TDD_BURST_COUNT    = 8'h13,
+    ADDR_TDD_STARTUP_DELAY  = 8'h14,
+    ADDR_TDD_FRAME_LENGTH   = 8'h15,
+    ADDR_TDD_SYNC_CNT_LOW   = 8'h16,
+    ADDR_TDD_SYNC_CNT_HIGH  = 8'h17,
+    ADDR_TDD_STATUS         = 8'h18,
+    ADDR_TDD_CH_ON          = 8'h20,
+    ADDR_TDD_CH_OFF         = 8'h21;
 
   // channel offset values
   localparam

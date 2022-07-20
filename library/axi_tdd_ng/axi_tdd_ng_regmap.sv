@@ -70,11 +70,11 @@ module axi_tdd_ng_regmap #(
   input  logic                         up_rstn,
   input  logic                         up_clk,
   input  logic                         up_wreq,
-  input  logic [13:0]                  up_waddr,
+  input  logic [ 7:0]                  up_waddr,
   input  logic [31:0]                  up_wdata,
   output logic                         up_wack,
   input  logic                         up_rreq,
-  input  logic [13:0]                  up_raddr,
+  input  logic [ 7:0]                  up_raddr,
   output logic [31:0]                  up_rdata,
   output logic                         up_rack
 );
@@ -103,6 +103,7 @@ module axi_tdd_ng_regmap #(
 
   //internal wires
   logic [31:0]                  status_synth_params_s;
+  logic [31:0]                  status_def_polarity_s;
   logic [31:0]                  up_tdd_channel_en_s;
   logic [31:0]                  up_tdd_channel_pol_s;
   logic [31:0]                  up_tdd_burst_count_s;
@@ -123,11 +124,11 @@ module axi_tdd_ng_regmap #(
     up_tdd_sync_int = 1'b0;
     up_tdd_sync_ext = 1'b0;
     up_tdd_sync_soft = 1'b0;
-    up_tdd_channel_en = 'd0;
-    up_tdd_channel_pol = 'd0;
-    up_tdd_burst_count = 'd0;
-    up_tdd_startup_delay = 'd0;
-    up_tdd_frame_length = 'd0;
+    up_tdd_channel_en = '0;
+    up_tdd_channel_pol = '0;
+    up_tdd_burst_count = '0;
+    up_tdd_startup_delay = '0;
+    up_tdd_frame_length = '0;
     up_tdd_channel_on  = '{default:0};
     up_tdd_channel_off = '{default:0};
   end
@@ -142,6 +143,8 @@ module axi_tdd_ng_regmap #(
                              1'(SYNC_INTERNAL),
                              5'(CHANNEL_COUNT_EXTRA)};
 
+  assign status_def_polarity_s = {{(32-CHANNEL_COUNT){1'b0}}, DEFAULT_POLARITY};
+
   // processor write interface
 
   always @(posedge up_clk) begin
@@ -153,17 +156,17 @@ module axi_tdd_ng_regmap #(
       up_tdd_sync_int <= 1'b0;
       up_tdd_sync_ext <= 1'b0;
       up_tdd_sync_soft <= 1'b0;
-      up_tdd_channel_en <= 'd0;
-      up_tdd_channel_pol <= 'd0;
-      up_tdd_startup_delay <= 'd0;
-      up_tdd_frame_length <= 'd0;
-      up_tdd_burst_count <= 'd0;
+      up_tdd_channel_en <= '0;
+      up_tdd_channel_pol <= '0;
+      up_tdd_startup_delay <= '0;
+      up_tdd_frame_length <= '0;
+      up_tdd_burst_count <= '0;
     end else begin
       up_wack <= up_wreq;
-      if ((up_wreq == 1'b1) && (up_waddr[7:0] == ADDR_TDD_SCRATCH)) begin
+      if ((up_wreq == 1'b1) && (up_waddr == ADDR_TDD_SCRATCH)) begin
         up_scratch <= up_wdata;
       end
-      if ((up_wreq == 1'b1) && (up_waddr[7:0] == ADDR_TDD_CONTROL)) begin
+      if ((up_wreq == 1'b1) && (up_waddr == ADDR_TDD_CONTROL)) begin
         up_tdd_sync_soft <= up_wdata[4];
         up_tdd_sync_ext <= up_wdata[3] & SYNC_EXTERNAL;
         up_tdd_sync_int <= up_wdata[2] & SYNC_INTERNAL;
@@ -176,19 +179,19 @@ module axi_tdd_ng_regmap #(
         up_tdd_sync_rst <= up_tdd_sync_rst;
         up_tdd_enable   <= up_tdd_enable;
       end
-      if ((up_wreq == 1'b1) && (up_waddr[7:0] == ADDR_TDD_CH_ENABLE)) begin
+      if ((up_wreq == 1'b1) && (up_waddr == ADDR_TDD_CH_ENABLE)) begin
         up_tdd_channel_en <= up_wdata[CHANNEL_COUNT-1:0];
       end
-      if ((up_wreq == 1'b1) && (up_waddr[7:0] == ADDR_TDD_CH_POLARITY) && !up_tdd_enable) begin
+      if ((up_wreq == 1'b1) && (up_waddr == ADDR_TDD_CH_POLARITY) && !up_tdd_enable) begin
         up_tdd_channel_pol <= up_wdata[CHANNEL_COUNT-1:0];
       end
-      if ((up_wreq == 1'b1) && (up_waddr[7:0] == ADDR_TDD_BURST_COUNT) && !up_tdd_enable) begin
+      if ((up_wreq == 1'b1) && (up_waddr == ADDR_TDD_BURST_COUNT) && !up_tdd_enable) begin
         up_tdd_burst_count <= up_wdata[BURST_COUNT_WIDTH-1:0];
       end
-      if ((up_wreq == 1'b1) && (up_waddr[7:0] == ADDR_TDD_STARTUP_DELAY) && !up_tdd_enable) begin
+      if ((up_wreq == 1'b1) && (up_waddr == ADDR_TDD_STARTUP_DELAY) && !up_tdd_enable) begin
         up_tdd_startup_delay <= up_wdata[REGISTER_WIDTH-1:0];
       end
-      if ((up_wreq == 1'b1) && (up_waddr[7:0] == ADDR_TDD_FRAME_LENGTH) && !up_tdd_enable) begin
+      if ((up_wreq == 1'b1) && (up_waddr == ADDR_TDD_FRAME_LENGTH) && !up_tdd_enable) begin
         up_tdd_frame_length <= up_wdata[REGISTER_WIDTH-1:0];
       end
     end
@@ -211,12 +214,12 @@ module axi_tdd_ng_regmap #(
       always @(posedge up_clk) begin
         if (up_rstn == 0) begin
           up_tdd_sync_period_low <= 32'b0;
-          up_tdd_sync_period_high <= 'd0;
+          up_tdd_sync_period_high <= '0;
         end else begin
-          if ((up_wreq == 1'b1) && (up_waddr[7:0] == ADDR_TDD_SYNC_CNT_LOW) && !up_tdd_enable) begin
+          if ((up_wreq == 1'b1) && (up_waddr == ADDR_TDD_SYNC_CNT_LOW) && !up_tdd_enable) begin
             up_tdd_sync_period_low <= up_wdata[31:0];
           end
-          if ((up_wreq == 1'b1) && (up_waddr[7:0] == ADDR_TDD_SYNC_CNT_HIGH) && !up_tdd_enable) begin
+          if ((up_wreq == 1'b1) && (up_waddr == ADDR_TDD_SYNC_CNT_HIGH) && !up_tdd_enable) begin
             up_tdd_sync_period_high <= up_wdata[(SYNC_COUNT_WIDTH-32-1):0];
           end
         end
@@ -233,9 +236,9 @@ module axi_tdd_ng_regmap #(
 
         always @(posedge up_clk) begin
           if (up_rstn == 0) begin
-            up_tdd_sync_period_low <= 'd0;
+            up_tdd_sync_period_low <= '0;
           end else begin
-            if ((up_wreq == 1'b1) && (up_waddr[7:0] == ADDR_TDD_SYNC_CNT_LOW) && !up_tdd_enable) begin
+            if ((up_wreq == 1'b1) && (up_waddr == ADDR_TDD_SYNC_CNT_LOW) && !up_tdd_enable) begin
               up_tdd_sync_period_low <= up_wdata[(SYNC_COUNT_WIDTH-1):0];
             end
           end
@@ -248,7 +251,7 @@ module axi_tdd_ng_regmap #(
       end else begin
         assign up_tdd_sync_period_s[31:0] = 32'b0;
         assign up_tdd_sync_period_s[63:32] = 32'b0;
-        assign tdd_sync_period = 'd0;
+        assign tdd_sync_period = '0;
       end
     end
   endgenerate
@@ -261,13 +264,13 @@ module axi_tdd_ng_regmap #(
     for (i=0; i<CHANNEL_COUNT; i=i+1) begin
       always @(posedge up_clk) begin
         if (up_rstn == 0) begin
-          up_tdd_channel_on[i] <= 'd0;
-          up_tdd_channel_off[i] <= 'd0;
+          up_tdd_channel_on[i] <= '0;
+          up_tdd_channel_off[i] <= '0;
         end else begin
-          if ((up_wreq == 1'b1) && (up_waddr[7:0] == (ADDR_TDD_CH_ON + i*2)) && !up_tdd_enable) begin
+          if ((up_wreq == 1'b1) && (up_waddr == (ADDR_TDD_CH_ON + i*2)) && !up_tdd_enable) begin
             up_tdd_channel_on[i] <= up_wdata[REGISTER_WIDTH-1:0];
           end
-          if ((up_wreq == 1'b1) && (up_waddr[7:0] == (ADDR_TDD_CH_OFF + i*2)) && !up_tdd_enable) begin
+          if ((up_wreq == 1'b1) && (up_waddr == (ADDR_TDD_CH_OFF + i*2)) && !up_tdd_enable) begin
             up_tdd_channel_off[i] <= up_wdata[REGISTER_WIDTH-1:0];
           end
         end
@@ -293,12 +296,13 @@ module axi_tdd_ng_regmap #(
     end else begin
       up_rack <= up_rreq;
       if (up_rreq == 1'b1) begin
-        case (up_raddr[7:0])
+        case (up_raddr)
           ADDR_TDD_VERSION         : up_rdata <= PCORE_VERSION;
           ADDR_TDD_ID              : up_rdata <= ID[31:0];
           ADDR_TDD_SCRATCH         : up_rdata <= up_scratch;
-          ADDR_TDD_IDENTIFY        : up_rdata <= PCORE_MAGIC;
+          ADDR_TDD_IDENTIFICATION  : up_rdata <= PCORE_MAGIC;
           ADDR_TDD_INTERFACE       : up_rdata <= status_synth_params_s;
+          ADDR_TDD_DEF_POLARITY    : up_rdata <= status_def_polarity_s;
           ADDR_TDD_CONTROL         : up_rdata <= {27'b0, up_tdd_sync_soft,
                                                          up_tdd_sync_ext,
                                                          up_tdd_sync_int,
@@ -311,7 +315,7 @@ module axi_tdd_ng_regmap #(
           ADDR_TDD_FRAME_LENGTH    : up_rdata <= up_tdd_frame_length_s;
           ADDR_TDD_SYNC_CNT_LOW    : up_rdata <= up_tdd_sync_period_s[31:0];
           ADDR_TDD_SYNC_CNT_HIGH   : up_rdata <= up_tdd_sync_period_s[63:32];
-          ADDR_TDD_STATUS          : up_rdata <= {30'b0 ,up_tdd_cstate};
+          ADDR_TDD_STATUS          : up_rdata <= {30'b0, up_tdd_cstate};
           ADDR_TDD_CH_ON  + 2*CH0  : up_rdata <= up_tdd_channel_on_s[CH0];
           ADDR_TDD_CH_OFF + 2*CH0  : up_rdata <= up_tdd_channel_off_s[CH0];
           ADDR_TDD_CH_ON  + 2*CH1  : up_rdata <= up_tdd_channel_on_s[CH1];
@@ -430,7 +434,7 @@ module axi_tdd_ng_regmap #(
     .out_clk (up_clk),
     .out_data (up_tdd_cstate));
 
-  // skipping the CDC for the rest of the registers since the register writes are gated with module enable
+  // skipping CDC for the rest of the registers since the register writes are gated with module enable
   // furthermore, updating the async domain registers is also conditioned by the synchronized module enable
 
   assign asy_tdd_burst_count = up_tdd_burst_count;

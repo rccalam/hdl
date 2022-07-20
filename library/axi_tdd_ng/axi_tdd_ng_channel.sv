@@ -63,7 +63,7 @@ module axi_tdd_ng_channel #(
   logic tdd_ch_set;
   logic tdd_ch_rst;
 
-  //initial values
+  // initial values
   initial begin
     tdd_ch_en  = 1'b0;
     tdd_ch_set = 1'b0;
