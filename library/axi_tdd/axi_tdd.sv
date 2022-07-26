@@ -35,7 +35,7 @@
 
 `timescale 1ns/1ps
 
-module axi_tdd_ng #(
+module axi_tdd #(
 
   // Peripheral ID
   parameter         ID = 0,
@@ -103,7 +103,7 @@ module axi_tdd_ng #(
 );
 
   // Package import
-  import axi_tdd_ng_pkg::*;
+  import axi_tdd_pkg::*;
 
   // Internal up bus, translated by up_axi
   logic                         up_rstn;
@@ -151,7 +151,7 @@ module axi_tdd_ng #(
   // reset outputs which are still open due to a potential misconfiguration.
   logic                         tdd_endof_frame;
 
-  axi_tdd_ng_regmap #(
+  axi_tdd_regmap #(
     .ID                (ID),
     .CHANNEL_COUNT     (CHANNEL_COUNT),
     .DEFAULT_POLARITY  (DEFAULT_POLARITY),
@@ -198,7 +198,7 @@ module axi_tdd_ng #(
     .tdd_sync_ext          (tdd_sync_ext),
     .tdd_sync_soft         (tdd_sync_soft));
 
-  axi_tdd_ng_counter #(
+  axi_tdd_counter #(
     .REGISTER_WIDTH    (REGISTER_WIDTH),
     .BURST_COUNT_WIDTH (BURST_COUNT_WIDTH)
   ) i_counter (
@@ -218,7 +218,7 @@ module axi_tdd_ng #(
     .tdd_cstate            (tdd_cstate),
     .tdd_endof_frame       (tdd_endof_frame));
 
-  axi_tdd_ng_sync_gen #(
+  axi_tdd_sync_gen #(
     .SYNC_INTERNAL     (SYNC_INTERNAL),
     .SYNC_EXTERNAL     (SYNC_EXTERNAL),
     .SYNC_EXTERNAL_CDC (SYNC_EXTERNAL_CDC),
@@ -240,7 +240,7 @@ module axi_tdd_ng #(
   genvar i;
   generate
     for (i = 0; i < CHANNEL_COUNT; i=i+1) begin
-      axi_tdd_ng_channel #(
+      axi_tdd_channel #(
         .DEFAULT_POLARITY (DEFAULT_POLARITY[i]),
         .REGISTER_WIDTH   (REGISTER_WIDTH)
       ) i_channel (

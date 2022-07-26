@@ -30,11 +30,11 @@ set_false_path \
   -from [get_registers {*|i_regmap|*up_tdd_channel_off[*][*]}] \
   -to [get_registers {*|[*].i_channel|t_low[*]}]
 
-util_cdc_sync_bits_constr {*|axi_tdd_ng_regmap:i_regmap|sync_bits:i_tdd_control_sync}
+util_cdc_sync_bits_constr {*|axi_tdd_regmap:i_regmap|sync_bits:i_tdd_control_sync}
 
-util_cdc_sync_bits_constr {*|axi_tdd_ng_regmap:i_regmap|sync_bits:i_tdd_ch_en_sync}
+util_cdc_sync_bits_constr {*|axi_tdd_regmap:i_regmap|sync_bits:i_tdd_ch_en_sync}
 
-util_cdc_sync_data_constr {*|axi_tdd_ng_regmap:i_regmap|sync_data:i_tdd_cstate_sync}
+util_cdc_sync_data_constr {*|axi_tdd_regmap:i_regmap|sync_data:i_tdd_cstate_sync}
 
-util_cdc_sync_event_constr {*|axi_tdd_ng_regmap:i_regmap|sync_event:i_tdd_soft_sync}
+util_cdc_sync_event_constr {*|axi_tdd_regmap:i_regmap|sync_event:i_tdd_soft_sync}
 

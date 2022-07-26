@@ -34,7 +34,7 @@
 // ***************************************************************************
 `timescale 1ns/1ps
 
-module axi_tdd_ng_channel #(
+module axi_tdd_channel #(
   parameter  DEFAULT_POLARITY = 0,
   parameter  REGISTER_WIDTH = 32
 ) (
@@ -43,7 +43,7 @@ module axi_tdd_ng_channel #(
   input  logic                      resetn,
 
   input  logic [REGISTER_WIDTH-1:0] tdd_counter,
-  input  axi_tdd_ng_pkg::state_t    tdd_cstate,
+  input  axi_tdd_pkg::state_t       tdd_cstate,
   input  logic                      tdd_enable,
   input  logic                      tdd_endof_frame,
 
@@ -56,7 +56,7 @@ module axi_tdd_ng_channel #(
 );
 
   // package import
-  import axi_tdd_ng_pkg::*;
+  import axi_tdd_pkg::*;
 
   // internal registers
   logic                      ch_pol;

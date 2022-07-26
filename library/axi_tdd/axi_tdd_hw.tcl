@@ -3,24 +3,24 @@ package require qsys 14.0
 source ../scripts/adi_env.tcl
 source ../scripts/adi_ip_intel.tcl
 
-set_module_property NAME axi_tdd_ng
+set_module_property NAME axi_tdd
 set_module_property DESCRIPTION "AXI TDD Interface"
 set_module_property VERSION 1.0
 set_module_property GROUP "Analog Devices"
-set_module_property DISPLAY_NAME axi_tdd_ng
+set_module_property DISPLAY_NAME axi_tdd
 
-ad_ip_files axi_tdd_ng [list\
+ad_ip_files axi_tdd [list\
   $ad_hdl_dir/library/common/up_axi.v \
   $ad_hdl_dir/library/util_cdc/sync_bits.v \
   $ad_hdl_dir/library/util_cdc/sync_data.v \
   $ad_hdl_dir/library/util_cdc/sync_event.v \
-  axi_tdd_ng_pkg.sv \
-  axi_tdd_ng_channel.sv \
-  axi_tdd_ng_counter.sv \
-  axi_tdd_ng_regmap.sv \
-  axi_tdd_ng_sync_gen.sv \
-  axi_tdd_ng.sv \
-  axi_tdd_ng_constr.sdc]
+  axi_tdd_pkg.sv \
+  axi_tdd_channel.sv \
+  axi_tdd_counter.sv \
+  axi_tdd_regmap.sv \
+  axi_tdd_sync_gen.sv \
+  axi_tdd.sv \
+  axi_tdd_constr.sdc]
 
 # parameters
 

@@ -34,7 +34,7 @@
 // ***************************************************************************
 `timescale 1ns/1ps
 
-module axi_tdd_ng_regmap #(
+module axi_tdd_regmap #(
   parameter  ID = 0,
   parameter  CHANNEL_COUNT = 8,
   parameter  DEFAULT_POLARITY = 8'h00,
@@ -51,7 +51,7 @@ module axi_tdd_ng_regmap #(
   input  logic                         tdd_resetn,
 
   // tdd interface control
-  input  axi_tdd_ng_pkg::state_t       tdd_cstate,
+  input  axi_tdd_pkg::state_t          tdd_cstate,
   output logic                         tdd_enable,
   output logic [CHANNEL_COUNT-1:0]     tdd_channel_en,
   output logic [CHANNEL_COUNT-1:0]     asy_tdd_channel_pol,
@@ -80,7 +80,7 @@ module axi_tdd_ng_regmap #(
 );
 
   // package import
-  import axi_tdd_ng_pkg::*;
+  import axi_tdd_pkg::*;
 
   // local params
   localparam CHANNEL_COUNT_EXTRA = CHANNEL_COUNT - 1;

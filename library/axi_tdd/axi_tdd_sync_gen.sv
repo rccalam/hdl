@@ -34,7 +34,7 @@
 // ***************************************************************************
 `timescale 1ns/1ps
 
-module axi_tdd_ng_sync_gen #(
+module axi_tdd_sync_gen #(
   parameter  SYNC_INTERNAL = 1,
   parameter  SYNC_EXTERNAL = 0,
   parameter  SYNC_EXTERNAL_CDC = 0,

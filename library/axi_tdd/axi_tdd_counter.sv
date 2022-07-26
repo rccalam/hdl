@@ -34,7 +34,7 @@
 // ***************************************************************************
 `timescale 1ns/1ps
 
-module axi_tdd_ng_counter #(
+module axi_tdd_counter #(
   parameter  REGISTER_WIDTH = 32,
   parameter  BURST_COUNT_WIDTH = 32
 ) (
@@ -52,12 +52,12 @@ module axi_tdd_ng_counter #(
 
   output logic                         tdd_active,
   output logic [REGISTER_WIDTH-1:0]    tdd_counter,
-  output axi_tdd_ng_pkg::state_t       tdd_cstate,
+  output axi_tdd_pkg::state_t          tdd_cstate,
   output logic                         tdd_endof_frame
 );
 
   // package import
-  import axi_tdd_ng_pkg::*;
+  import axi_tdd_pkg::*;
 
   // internal registers/wires
   logic [BURST_COUNT_WIDTH-1:0] tdd_burst_count;
