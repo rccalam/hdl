@@ -1,38 +1,34 @@
 set_false_path \
   -from [get_registers {*|i_regmap|up_tdd_burst_count[*]}] \
-  -to [get_registers {*|i_counter|tdd_burst_counter[*]}]
+  -to [get_registers {*|i_counter|tdd_burst_count[*]}]
 
 set_false_path \
   -from [get_registers {*|i_regmap|up_tdd_startup_delay[*]}] \
-  -to [get_registers {*|i_counter|tdd_delay_done}]
-
-set_false_path \
-  -from [get_registers {*|i_regmap|up_tdd_startup_delay[*]}] \
-  -to [get_registers {*|i_counter|tdd_delay_skip}]
+  -to [get_registers {*|i_counter|tdd_startup_delay[*]}]
 
 set_false_path \
   -from [get_registers {*|i_regmap|up_tdd_frame_length[*]}] \
-  -to [get_registers {*|i_counter|tdd_endof_frame}]
+  -to [get_registers {*|i_counter|tdd_frame_length[*]}]
 
 set_false_path \
   -from [get_registers {*|i_regmap|up_tdd_sync_period_low[*]}] \
-  -to [get_registers {*|i_sync_gen|tdd_sync_trigger}]
+  -to [get_registers {*|i_sync_gen|tdd_sync_period[*]}]
 
 set_false_path \
   -from [get_registers {*|i_regmap|up_tdd_sync_period_high[*]}] \
-  -to [get_registers {*|i_sync_gen|tdd_sync_trigger}]
+  -to [get_registers {*|i_sync_gen|tdd_sync_period[*]}]
 
 set_false_path \
   -from [get_registers {*|i_regmap|up_tdd_channel_pol[*]}] \
-  -to [get_registers {*|[*].i_channel|out}]
+  -to [get_registers {*|[*].i_channel|ch_pol}]
 
 set_false_path \
   -from [get_registers {*|i_regmap|*up_tdd_channel_on[*][*]}] \
-  -to [get_registers {*|[*].i_channel|tdd_ch_set}]
+  -to [get_registers {*|[*].i_channel|t_high[*]}]
 
 set_false_path \
   -from [get_registers {*|i_regmap|*up_tdd_channel_off[*][*]}] \
-  -to [get_registers {*|[*].i_channel|tdd_ch_rst}]
+  -to [get_registers {*|[*].i_channel|t_low[*]}]
 
 util_cdc_sync_bits_constr {*|axi_tdd_ng_regmap:i_regmap|sync_bits:i_tdd_control_sync}
 

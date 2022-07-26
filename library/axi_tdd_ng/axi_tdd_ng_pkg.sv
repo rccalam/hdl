@@ -42,7 +42,7 @@ package axi_tdd_ng_pkg;
     RUNNING = 2'b11} state_t;
 
   localparam
-    PCORE_VERSION = 32'h00010061,
+    PCORE_VERSION = 32'h00020061,
     PCORE_MAGIC   = 32'h5444444E; // "TDDN", big endian
 
   // register address offset

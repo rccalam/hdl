@@ -60,7 +60,7 @@ module axi_tdd_ng_regmap #(
   output logic [REGISTER_WIDTH-1:0]    asy_tdd_frame_length,
   output logic [REGISTER_WIDTH-1:0]    asy_tdd_channel_on  [0:CHANNEL_COUNT-1],
   output logic [REGISTER_WIDTH-1:0]    asy_tdd_channel_off [0:CHANNEL_COUNT-1],
-  output logic [SYNC_COUNT_WIDTH-1:0]  tdd_sync_period,
+  output logic [SYNC_COUNT_WIDTH-1:0]  asy_tdd_sync_period,
   output logic                         tdd_sync_rst,
   output logic                         tdd_sync_int,
   output logic                         tdd_sync_ext,
@@ -227,7 +227,7 @@ module axi_tdd_ng_regmap #(
 
       assign up_tdd_sync_period_s[31:0] = up_tdd_sync_period_low;
       assign up_tdd_sync_period_s[63:32] = {{(64-SYNC_COUNT_WIDTH){1'b0}}, up_tdd_sync_period_high};
-      assign tdd_sync_period = {up_tdd_sync_period_high, up_tdd_sync_period_low}; //skipping CDC
+      assign asy_tdd_sync_period = {up_tdd_sync_period_high, up_tdd_sync_period_low}; //skipping CDC
 
     end else begin
       if (SYNC_COUNT_WIDTH>0) begin
@@ -246,12 +246,12 @@ module axi_tdd_ng_regmap #(
 
         assign up_tdd_sync_period_s[31:0] = {{(32-SYNC_COUNT_WIDTH){1'b0}}, up_tdd_sync_period_low};
         assign up_tdd_sync_period_s[63:32] = 32'b0;
-        assign tdd_sync_period = up_tdd_sync_period_low; //skipping CDC
+        assign asy_tdd_sync_period = up_tdd_sync_period_low; //skipping CDC
 
       end else begin
         assign up_tdd_sync_period_s[31:0] = 32'b0;
         assign up_tdd_sync_period_s[63:32] = 32'b0;
-        assign tdd_sync_period = '0;
+        assign asy_tdd_sync_period = '0;
       end
     end
   endgenerate
@@ -392,7 +392,6 @@ module axi_tdd_ng_regmap #(
 
   sync_bits #(
     .NUM_OF_BITS (4),
-    .RESET_VALUE (0),
     .ASYNC_CLK (1)
   ) i_tdd_control_sync (
     .in_bits ({up_tdd_sync_ext,
@@ -417,7 +416,6 @@ module axi_tdd_ng_regmap #(
 
   sync_bits #(
     .NUM_OF_BITS (CHANNEL_COUNT),
-    .RESET_VALUE (0),
     .ASYNC_CLK (1)
   ) i_tdd_ch_en_sync (
     .in_bits (up_tdd_channel_en),

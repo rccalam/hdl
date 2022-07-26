@@ -133,7 +133,7 @@ module axi_tdd_ng #(
   logic [REGISTER_WIDTH-1:0]    asy_tdd_frame_length;
 
   // Synchronization config
-  logic [SYNC_COUNT_WIDTH-1:0]  tdd_sync_period;
+  logic [SYNC_COUNT_WIDTH-1:0]  asy_tdd_sync_period;
 
   // Channel config
   logic [CHANNEL_COUNT-1:0]     tdd_channel_en;
@@ -191,7 +191,8 @@ module axi_tdd_ng #(
     .asy_tdd_channel_on    (asy_tdd_channel_on),
     .asy_tdd_channel_off   (asy_tdd_channel_off),
 
-    .tdd_sync_period       (tdd_sync_period),
+    .asy_tdd_sync_period   (asy_tdd_sync_period),
+
     .tdd_sync_rst          (tdd_sync_rst),
     .tdd_sync_int          (tdd_sync_int),
     .tdd_sync_ext          (tdd_sync_ext),
@@ -223,17 +224,18 @@ module axi_tdd_ng #(
     .SYNC_EXTERNAL_CDC (SYNC_EXTERNAL_CDC),
     .SYNC_COUNT_WIDTH  (SYNC_COUNT_WIDTH)
   ) i_sync_gen (
-    .clk              (clk),
-    .resetn           (resetn),
+    .clk                 (clk),
+    .resetn              (resetn),
 
-    .sync_in          (sync_in),
-    .sync_out         (sync_out),
+    .sync_in             (sync_in),
+    .sync_out            (sync_out),
 
-    .tdd_enable       (tdd_enable),
-    .tdd_sync_int     (tdd_sync_int),
-    .tdd_sync_ext     (tdd_sync_ext),
-    .tdd_sync_soft    (tdd_sync_soft),
-    .tdd_sync_period  (tdd_sync_period));
+    .tdd_enable          (tdd_enable),
+    .tdd_sync_int        (tdd_sync_int),
+    .tdd_sync_ext        (tdd_sync_ext),
+    .tdd_sync_soft       (tdd_sync_soft),
+
+    .asy_tdd_sync_period (asy_tdd_sync_period));
 
   genvar i;
   generate

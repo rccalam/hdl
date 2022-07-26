@@ -51,14 +51,27 @@ module axi_tdd_ng_sync_gen #(
   input  logic                        tdd_sync_ext,
   input  logic                        tdd_sync_int,
   input  logic                        tdd_sync_soft,
-  input  logic [SYNC_COUNT_WIDTH-1:0] tdd_sync_period
+  input  logic [SYNC_COUNT_WIDTH-1:0] asy_tdd_sync_period
 );
 
   // internal signals
-  logic [1:0] sync_source;
+  logic [SYNC_COUNT_WIDTH-1:0] tdd_sync_period;
+  logic [1:0]                  sync_source;
 
+  // Connect the enable signal to the enable flop lines
   (* direct_enable = "yes" *) logic enable;
   assign enable = tdd_enable;
+
+  // Save the async register values only when the module is enabled
+  always @(posedge clk) begin
+    if (resetn == 1'b0) begin
+      tdd_sync_period <= '0;
+    end else begin
+      if (enable) begin
+        tdd_sync_period <= asy_tdd_sync_period;
+      end
+    end
+  end
 
   // first sync source (external)
   generate
@@ -103,12 +116,10 @@ module axi_tdd_ng_sync_gen #(
         if (resetn == 1'b0) begin
           tdd_sync_trigger <= 1'b0;
         end else begin
-          if (enable) begin
-            if (tdd_sync_counter == (tdd_sync_period - 1'b1)) begin
-              tdd_sync_trigger <= 1'b1;
-            end else begin
-              tdd_sync_trigger <= 1'b0;
-            end
+          if (tdd_sync_counter == (tdd_sync_period - 1'b1)) begin
+            tdd_sync_trigger <= 1'b1;
+          end else begin
+            tdd_sync_trigger <= 1'b0;
           end
         end
       end
@@ -118,8 +129,10 @@ module axi_tdd_ng_sync_gen #(
         if (resetn == 1'b0) begin
           tdd_sync_counter <= '0;
         end else begin
-          if (enable) begin
+          if (tdd_enable) begin
             tdd_sync_counter <= (tdd_sync_trigger == 1'b1) ? '0 : tdd_sync_counter + 1'b1;
+          end else begin
+            tdd_sync_counter <= '0;
           end
         end
       end

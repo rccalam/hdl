@@ -4,39 +4,35 @@ set_property ASYNC_REG TRUE \
 
 set_false_path \
   -from [get_cells -hierarchical * -filter {NAME=~*i_regmap/up_tdd_burst_count_reg[*]}] \
-  -to [get_cells -hierarchical * -filter {NAME=~*i_counter/tdd_burst_counter_reg[*]}]
+  -to [get_cells -hierarchical * -filter {NAME=~*i_counter/tdd_burst_count_reg[*]}]
 
 set_false_path \
   -from [get_cells -hierarchical * -filter {NAME=~*i_regmap/up_tdd_startup_delay_reg[*]}] \
-  -to [get_cells -hierarchical * -filter {NAME=~*i_counter/tdd_delay_done_reg}]
-
-set_false_path \
-  -from [get_cells -hierarchical * -filter {NAME=~*i_regmap/up_tdd_startup_delay_reg[*]}] \
-  -to [get_cells -hierarchical * -filter {NAME=~*i_counter/tdd_delay_skip_reg}]
+  -to [get_cells -hierarchical * -filter {NAME=~*i_counter/tdd_startup_delay_reg[*]}]
 
 set_false_path \
   -from [get_cells -hierarchical * -filter {NAME=~*i_regmap/up_tdd_frame_length_reg[*]}] \
-  -to [get_cells -hierarchical * -filter {NAME=~*i_counter/tdd_endof_frame_reg}]
+  -to [get_cells -hierarchical * -filter {NAME=~*i_counter/tdd_frame_length_reg[*]}]
 
 set_false_path \
   -from [get_cells -hierarchical * -filter {NAME=~*i_regmap/up_tdd_sync_period_low_reg[*]}] \
-  -to [get_cells -hierarchical * -filter {NAME=~*i_sync_gen/tdd_sync_trigger_reg}]
+  -to [get_cells -hierarchical * -filter {NAME=~*i_sync_gen/tdd_sync_period_reg[*]}]
 
 set_false_path \
   -from [get_cells -hierarchical * -filter {NAME=~*i_regmap/up_tdd_sync_period_high_reg[*]}] \
-  -to [get_cells -hierarchical * -filter {NAME=~*i_sync_gen/tdd_sync_trigger_reg}]
+  -to [get_cells -hierarchical * -filter {NAME=~*i_sync_gen/tdd_sync_period_reg[*]}]
 
 set_false_path \
   -from [get_cells -hierarchical * -filter {NAME=~*i_regmap/up_tdd_channel_pol_reg[*]}] \
-  -to [get_cells -hierarchical * -filter {NAME=~*i_channel/out_reg}]
+  -to [get_cells -hierarchical * -filter {NAME=~*i_channel/ch_pol_reg}]
 
 set_false_path \
   -from [get_cells -hierarchical * -filter {NAME=~*i_regmap/*up_tdd_channel_on_reg[*][*]}] \
-  -to [get_cells -hierarchical * -filter {NAME=~*i_channel/tdd_ch_set_reg}]
+  -to [get_cells -hierarchical * -filter {NAME=~*i_channel/t_high_reg[*]}]
 
 set_false_path \
   -from [get_cells -hierarchical * -filter {NAME=~*i_regmap/*up_tdd_channel_off_reg[*][*]}] \
-  -to [get_cells -hierarchical * -filter {NAME=~*i_channel/tdd_ch_rst_reg}]
+  -to [get_cells -hierarchical * -filter {NAME=~*i_channel/t_low_reg[*]}]
 
 set_false_path \
   -from [get_cells -hierarchical * -filter {NAME=~*i_regmap/up_tdd_enable_reg}] \
