@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="axi_ad7606_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="axi_ad7606_tb" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="1,574.481 ns"></ZoomStartTime>
+      <ZoomEndTime time="1,843.282 ns"></ZoomEndTime>
+      <Cursor1Time time="1,431.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="202"></NameColumnWidth>
+      <ValueColumnWidth column_width="93"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="53" />
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/rx_cs_n">
+      <obj_property name="ElementShortName">rx_cs_n</obj_property>
+      <obj_property name="ObjectShortName">rx_cs_n</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/rx_db_o">
+      <obj_property name="ElementShortName">rx_db_o[15:0]</obj_property>
+      <obj_property name="ObjectShortName">rx_db_o[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/rx_db_i">
+      <obj_property name="ElementShortName">rx_db_i[15:0]</obj_property>
+      <obj_property name="ObjectShortName">rx_db_i[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/rx_db_t">
+      <obj_property name="ElementShortName">rx_db_t</obj_property>
+      <obj_property name="ObjectShortName">rx_db_t</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/rx_rd_n">
+      <obj_property name="ElementShortName">rx_rd_n</obj_property>
+      <obj_property name="ObjectShortName">rx_rd_n</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/rx_wr_n">
+      <obj_property name="ElementShortName">rx_wr_n</obj_property>
+      <obj_property name="ObjectShortName">rx_wr_n</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/external_clk">
+      <obj_property name="ElementShortName">external_clk</obj_property>
+      <obj_property name="ObjectShortName">external_clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/rx_cnvst">
+      <obj_property name="ElementShortName">rx_cnvst</obj_property>
+      <obj_property name="ObjectShortName">rx_cnvst</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/rx_busy">
+      <obj_property name="ElementShortName">rx_busy</obj_property>
+      <obj_property name="ObjectShortName">rx_busy</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/first_data">
+      <obj_property name="ElementShortName">first_data</obj_property>
+      <obj_property name="ObjectShortName">first_data</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/adc_data_0">
+      <obj_property name="ElementShortName">adc_data_0[15:0]</obj_property>
+      <obj_property name="ObjectShortName">adc_data_0[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/adc_data_1">
+      <obj_property name="ElementShortName">adc_data_1[15:0]</obj_property>
+      <obj_property name="ObjectShortName">adc_data_1[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/adc_data_2">
+      <obj_property name="ElementShortName">adc_data_2[15:0]</obj_property>
+      <obj_property name="ObjectShortName">adc_data_2[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/adc_data_3">
+      <obj_property name="ElementShortName">adc_data_3[15:0]</obj_property>
+      <obj_property name="ObjectShortName">adc_data_3[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/adc_data_4">
+      <obj_property name="ElementShortName">adc_data_4[15:0]</obj_property>
+      <obj_property name="ObjectShortName">adc_data_4[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/adc_data_5">
+      <obj_property name="ElementShortName">adc_data_5[15:0]</obj_property>
+      <obj_property name="ObjectShortName">adc_data_5[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/adc_data_6">
+      <obj_property name="ElementShortName">adc_data_6[15:0]</obj_property>
+      <obj_property name="ObjectShortName">adc_data_6[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/adc_data_7">
+      <obj_property name="ElementShortName">adc_data_7[15:0]</obj_property>
+      <obj_property name="ObjectShortName">adc_data_7[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/adc_valid">
+      <obj_property name="ElementShortName">adc_valid</obj_property>
+      <obj_property name="ObjectShortName">adc_valid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/resetn">
+      <obj_property name="ElementShortName">resetn</obj_property>
+      <obj_property name="ObjectShortName">resetn</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/up_rdata">
+      <obj_property name="ElementShortName">up_rdata[31:0]</obj_property>
+      <obj_property name="ObjectShortName">up_rdata[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/conv_counter">
+      <obj_property name="ElementShortName">conv_counter[3:0]</obj_property>
+      <obj_property name="ObjectShortName">conv_counter[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/IF_TYPE">
+      <obj_property name="ElementShortName">IF_TYPE[31:0]</obj_property>
+      <obj_property name="ObjectShortName">IF_TYPE[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/EXTERNAL_CLK">
+      <obj_property name="ElementShortName">EXTERNAL_CLK[31:0]</obj_property>
+      <obj_property name="ObjectShortName">EXTERNAL_CLK[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider26" type="divider">
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_parallel_interface/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_parallel_interface/rstn">
+      <obj_property name="ElementShortName">rstn</obj_property>
+      <obj_property name="ObjectShortName">rstn</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_parallel_interface/cs_n">
+      <obj_property name="ElementShortName">cs_n</obj_property>
+      <obj_property name="ObjectShortName">cs_n</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_parallel_interface/db_o">
+      <obj_property name="ElementShortName">db_o[15:0]</obj_property>
+      <obj_property name="ObjectShortName">db_o[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_parallel_interface/db_i">
+      <obj_property name="ElementShortName">db_i[15:0]</obj_property>
+      <obj_property name="ObjectShortName">db_i[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_parallel_interface/db_t">
+      <obj_property name="ElementShortName">db_t</obj_property>
+      <obj_property name="ObjectShortName">db_t</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_parallel_interface/rd_n">
+      <obj_property name="ElementShortName">rd_n</obj_property>
+      <obj_property name="ObjectShortName">rd_n</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_parallel_interface/wr_n">
+      <obj_property name="ElementShortName">wr_n</obj_property>
+      <obj_property name="ObjectShortName">wr_n</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_parallel_interface/cnvst">
+      <obj_property name="ElementShortName">cnvst</obj_property>
+      <obj_property name="ObjectShortName">cnvst</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_parallel_interface/busy">
+      <obj_property name="ElementShortName">busy</obj_property>
+      <obj_property name="ObjectShortName">busy</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_parallel_interface/first_data">
+      <obj_property name="ElementShortName">first_data</obj_property>
+      <obj_property name="ObjectShortName">first_data</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_parallel_interface/rd_req">
+      <obj_property name="ElementShortName">rd_req</obj_property>
+      <obj_property name="ObjectShortName">rd_req</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_parallel_interface/wr_req">
+      <obj_property name="ElementShortName">wr_req</obj_property>
+      <obj_property name="ObjectShortName">wr_req</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_parallel_interface/wr_data">
+      <obj_property name="ElementShortName">wr_data[15:0]</obj_property>
+      <obj_property name="ObjectShortName">wr_data[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_parallel_interface/rd_data">
+      <obj_property name="ElementShortName">rd_data[15:0]</obj_property>
+      <obj_property name="ObjectShortName">rd_data[15:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_parallel_interface/rd_valid">
+      <obj_property name="ElementShortName">rd_valid</obj_property>
+      <obj_property name="ObjectShortName">rd_valid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_parallel_interface/cnvst_pulse">
+      <obj_property name="ElementShortName">cnvst_pulse</obj_property>
+      <obj_property name="ObjectShortName">cnvst_pulse</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_parallel_interface/transfer_state">
+      <obj_property name="ElementShortName">transfer_state[2:0]</obj_property>
+      <obj_property name="ObjectShortName">transfer_state[2:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFA500</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_parallel_interface/transfer_state_next">
+      <obj_property name="ElementShortName">transfer_state_next[2:0]</obj_property>
+      <obj_property name="ObjectShortName">transfer_state_next[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_parallel_interface/width_counter">
+      <obj_property name="ElementShortName">width_counter[1:0]</obj_property>
+      <obj_property name="ObjectShortName">width_counter[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_parallel_interface/read_ch_data">
+      <obj_property name="ElementShortName">read_ch_data</obj_property>
+      <obj_property name="ObjectShortName">read_ch_data</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_parallel_interface/channel_counter">
+      <obj_property name="ElementShortName">channel_counter[3:0]</obj_property>
+      <obj_property name="ObjectShortName">channel_counter[3:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFD700</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider53" type="divider">
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_regmap/up_resetn">
+      <obj_property name="ElementShortName">up_resetn</obj_property>
+      <obj_property name="ObjectShortName">up_resetn</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_regmap/up_cnvst_en">
+      <obj_property name="ElementShortName">up_cnvst_en</obj_property>
+      <obj_property name="ObjectShortName">up_cnvst_en</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_regmap/up_conv_rate">
+      <obj_property name="ElementShortName">up_conv_rate[31:0]</obj_property>
+      <obj_property name="ObjectShortName">up_conv_rate[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/axi_ad7606_tb/i_ad7606_tb/i_ad7606_regmap/up_burst_length">
+      <obj_property name="ElementShortName">up_burst_length[4:0]</obj_property>
+      <obj_property name="ObjectShortName">up_burst_length[4:0]</obj_property>
+   </wvobject>
+</wave_config>
