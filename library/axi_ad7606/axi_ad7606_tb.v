@@ -48,7 +48,7 @@ module axi_ad7606_tb ();
   wire                    rx_wr_n;
   reg                     external_clk = 'd0;
 
-  wire                    rx_cnvst;
+  wire                    rx_cnvst_n;
   reg                     rx_busy;
   reg                     rx_busy_d;
   reg                     first_data;
@@ -116,7 +116,7 @@ module axi_ad7606_tb ();
 
     rx_busy_d <= rx_busy;
 
-    incr_data <= (first_data | incr_data) & ~rx_cnvst;
+    incr_data <= (first_data | incr_data) & rx_cnvst_n;
     
     first_data_ready <= ~rx_busy & rx_busy_d;
         
@@ -139,7 +139,7 @@ module axi_ad7606_tb ();
     delay_first_data_d <= delay_first_data;
     first_data = delay_first_data_d & ~delay_first_data;
     
-    if (rx_cnvst) begin
+    if (~rx_cnvst_n) begin
       conv_counter <= 'd0;
     end else if (conv_counter < 'd14) begin
       conv_counter <= conv_counter +1;
@@ -158,7 +158,7 @@ module axi_ad7606_tb ();
     .rx_rd_n (rx_rd_n),
     .rx_wr_n (rx_wr_n),
     .external_clk (external_clk),
-    .rx_cnvst (rx_cnvst),
+    .rx_cnvst_n (rx_cnvst_n),
     .rx_busy (rx_busy),
     .first_data (first_data),
     .adc_valid (adc_valid),

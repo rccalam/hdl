@@ -1,6 +1,6 @@
 // ***************************************************************************
 // ***************************************************************************
-// Copyright 2014 - 2017 (c) Analog Devices, Inc. All rights reserved.
+// Copyright 2014 - 2022 (c) Analog Devices, Inc. All rights reserved.
 //
 // In this HDL repository, there are many different and unique modules, consisting
 // of various HDL (Verilog or VHDL) components. The individual modules are
@@ -51,7 +51,7 @@ module axi_ad7606_pif #(
   output                  db_t,
   output                  rd_n,
   output                  wr_n,
-  output                  cnvst,
+  output                  cnvst_n,
   input                   busy,
   input                   first_data,
 
@@ -75,10 +75,7 @@ module axi_ad7606_pif #(
   input                   wr_req,
   input       [15:0]      wr_data,
   output  reg [15:0]      rd_data ='hf,
-  output  reg             rd_valid,
-  input                   cnvst_en,
-  input       [31:0]      conv_rate
-  //input       [ 4:0]      burst_length
+  output  reg             rd_valid
 );
 
   // state registers
@@ -89,13 +86,14 @@ module axi_ad7606_pif #(
   localparam  [ 2:0]  CNTRL_HIGH = 3'h3;
   localparam  [ 2:0]  CS_HIGH = 3'h4;
   localparam          SIMPLE = 1;
+  localparam          STATUS_HEADER = 2;
   localparam          CRC_ENABLED = 3;
 
   // internal registers
 
   reg         [15:0]  crc_data = 16'b0;
   reg         [31:0]  cnvst_counter = 32'b0;
-  reg         [ 3:0]  pulse_counter = 8'b0;
+  reg         [ 3:0]  pulse_counter = 4'b0;
   reg                 cnvst_buf = 1'b0;
   reg                 cnvst_pulse = 1'b0;
   reg         [ 2:0]  chsel_ff = 3'b0;
@@ -103,7 +101,6 @@ module axi_ad7606_pif #(
   reg         [ 2:0]  transfer_state = 3'h0;
   reg         [ 2:0]  transfer_state_next = 3'h0;
   reg         [ 1:0]  width_counter = 2'h0;
-  // reg         [ 4:0]  burst_counter = 5'h0;
   reg         [ 3:0]  channel_counter = 4'h0;
   reg         [ 3:0]  nr_rd_burst = 4'h0;
 
@@ -111,7 +108,6 @@ module axi_ad7606_pif #(
   reg                 rd_req_d = 1'h0;
   reg                 rd_conv_d = 1'h0;
 
-  reg                 xfer_req_d = 1'h0;
 
   reg                 rd_valid_d = 1'h0;
   reg                 first_data_d = 1'd0;
@@ -119,7 +115,8 @@ module axi_ad7606_pif #(
   reg                 read_ch_data = 1'd0;
 
   // internal wires
-
+  
+  wire                cnvst;
   wire                end_of_conv;
   wire                start_transfer_s;
   wire                rd_valid_s;
@@ -137,40 +134,6 @@ module axi_ad7606_pif #(
     .rst (~rstn),
     .signal_in (busy),
     .signal_out (end_of_conv));
-
-  // convertion start generator
-  // NOTE: + The minimum convertion cycle is 1 us
-  //       + The rate of the cnvst must be defined in a way,
-  //          to not lose any data. cnvst_rate >= t_conversion + t_aquisition
-  //  See the ad7606 datasheet for more information.
-
-  always @(posedge clk) begin
-    if(rstn == 1'b0) begin
-      cnvst_counter <= 32'b0;
-    end else begin
-      cnvst_counter <= (cnvst_counter == conv_rate) ? 32'b0 : cnvst_counter + 32'd1;
-    end
-  end
-
-  always @(posedge clk) begin
-    cnvst_pulse <= (cnvst_counter == conv_rate) ? 1'b1 : 1'b0;
-  end
-
-  always @(posedge clk) begin
-    if(rstn == 1'b0) begin
-      pulse_counter <= 3'b0;
-      cnvst_buf <= 1'b0;
-    end else begin
-      pulse_counter <= (cnvst == 1'b1) ? pulse_counter + 1 : 3'b0;
-      if(cnvst_pulse == 1'b1) begin
-        cnvst_buf <= 1'b1;
-      end else if (pulse_counter[2] == 1'b1) begin
-        cnvst_buf <= 1'b0;
-      end
-    end
-  end
-
-  assign cnvst = (cnvst_en == 1'b1) ? cnvst_buf : 1'b0;
 
   // counters to control the RD_N and WR_N lines
 
@@ -196,18 +159,6 @@ module axi_ad7606_pif #(
     end
   end
 
-  // always @(posedge clk) begin
-  //   if (rstn == 1'b0) begin
-  //     burst_counter <= 2'h0;
-  //   end else begin
-  //     if (cs_high_edge_s == 1'b1) begin
-  //       burst_counter <= burst_counter + 1;
-  //     end else if (transfer_state == IDLE) begin
-  //       burst_counter <= 5'h0;
-  //     end
-  //   end
-  // end
-
   always @(posedge clk) begin
     if (rstn == 1'b0) begin
       channel_counter <= 2'h0;
@@ -232,7 +183,7 @@ module axi_ad7606_pif #(
       if (ADC_READ_MODE == SIMPLE) begin
         first_data_d <= first_data;
         nr_rd_burst = 4'd8;
-        if (first_data & ~first_data_d) begin
+        if (first_data & ~cs_n) begin
           read_ch_data <= 1'b1;
         end else if (channel_counter == 4'd8 && transfer_state == IDLE) begin
           read_ch_data <= 1'b0;
@@ -268,7 +219,7 @@ module axi_ad7606_pif #(
           4'd5 : begin
             adc_data_5 <= rd_data;
           end
-          5'd6 : begin
+          4'd6 : begin
             adc_data_6 <= rd_data;
           end
           4'd7 : begin
