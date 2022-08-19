@@ -179,7 +179,7 @@ proc adi_project {project_name {parameter_list {}}} {
   source $ad_hdl_dir/projects/scripts/adi_intel_msg.tcl
 
   # default assignments
-
+  set_global_assignment -name QIP_FILE $system_qip_file
   set_global_assignment -name VERILOG_FILE system_top.v
   set_global_assignment -name SDC_FILE system_constr.sdc
   set_global_assignment -name TOP_LEVEL_ENTITY system_top
