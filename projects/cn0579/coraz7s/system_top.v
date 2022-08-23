@@ -87,8 +87,7 @@ module system_top (
   wire    [63:0]  gpio_o;
   wire    [63:0]  gpio_t;
 
-  assign shutdown_n = gpio_o[34];
-  assign start_n = gpio_o[33];
+  assign shutdown_n = gpio_o[33];
   assign reset_n = gpio_o[32];
 
   ad_iobuf #(

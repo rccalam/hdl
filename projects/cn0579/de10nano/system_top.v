@@ -149,9 +149,8 @@ module system_top (
 
   // adc control gpio assign
 
-  assign mclk = 1'b0;
-  assign shutdown_n = gpio_o[34];
-  assign start_n = gpio_o[33];
+
+  assign shutdown_n = gpio_o[33];
   assign reset_n = gpio_o[32];
 
   assign gpio_i[63:15] = gpio_o[63:15];
