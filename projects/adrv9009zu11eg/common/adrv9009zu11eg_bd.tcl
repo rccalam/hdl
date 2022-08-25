@@ -378,36 +378,85 @@ ad_connect  sys_cpu_resetn util_adrv9009_som_xcvr/up_rstn
 ad_connect  sys_cpu_clk util_adrv9009_som_xcvr/up_clk
 
 if {$FMCOMMS8 == 1} {
-  ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_tx_xcvr axi_adrv9009_som_tx_jesd {0 1 2 3 4 5 6 7 9 8 10 11 12 13 14 15 16} core_clk_a
+  if {$TX_NUM_OF_LANES == 16} {
+    # ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_tx_xcvr axi_adrv9009_som_tx_jesd {0 1 2 3 4 5 6 7 9 8 10 11 12 13 14 15} core_clk_a
+    ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_tx_xcvr axi_adrv9009_som_tx_jesd {} core_clk_a
+  } else {
+    if {$TX_NUM_OF_LANES == 8} {
+      ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_tx_xcvr axi_adrv9009_som_tx_jesd {0 1 4 5 8 9 12 13} core_clk_a {} $MAX_TX_NUM_OF_LANES
+    } else {
+      if {$TX_NUM_OF_LANES == 4} {
+        ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_tx_xcvr axi_adrv9009_som_tx_jesd {0 4 8 12} core_clk_a {} $MAX_TX_NUM_OF_LANES
+
+      }
+    }
+  }
+  if {$RX_NUM_OF_LANES == 8} {
+    ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_rx_xcvr axi_adrv9009_som_rx_jesd {0 1 4 5 8 9 12 13} core_clk_b {} $MAX_RX_NUM_OF_LANES
+  } else {
+    ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_rx_xcvr axi_adrv9009_som_rx_jesd {0 4 8 12} core_clk_b {} $MAX_RX_NUM_OF_LANES
+  }
+  if {$OBS_NUM_OF_LANES == 8} {
+    ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_obs_xcvr axi_adrv9009_som_obs_jesd {2 3 6 7 10 11 14 15} core_clk_a {} $MAX_OBS_NUM_OF_LANES
+  } else {
+    ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_obs_xcvr axi_adrv9009_som_obs_jesd {2 6 10 14} core_clk_a {} $MAX_OBS_NUM_OF_LANES
+  }
 } else {
   # adrv2crr_fmc
   if {$TX_NUM_OF_LANES == 8} {
     ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_tx_xcvr axi_adrv9009_som_tx_jesd {} core_clk_a
   } else {
+#    ad_connect util_adrv9009_som_xcvr/tx_clk_2 util_adrv9009_som_xcvr/tx_clk_0
+#    ad_connect util_adrv9009_som_xcvr/tx_clk_3 util_adrv9009_som_xcvr/tx_clk_0
+#    ad_connect util_adrv9009_som_xcvr/tx_clk_6 util_adrv9009_som_xcvr/tx_clk_0
+#    ad_connect util_adrv9009_som_xcvr/tx_clk_7 util_adrv9009_som_xcvr/tx_clk_0
+
+#    ad_connect util_adrv9009_som_xcvr/tx_4_p util_adrv9009_som_xcvr/tx_data_4_p
+#    ad_connect util_adrv9009_som_xcvr/tx_4_n util_adrv9009_som_xcvr/tx_data_4_n
+#    ad_connect util_adrv9009_som_xcvr/tx_5_p util_adrv9009_som_xcvr/tx_data_5_p
+#    ad_connect util_adrv9009_som_xcvr/tx_5_n util_adrv9009_som_xcvr/tx_data_5_n
+#    ad_connect util_adrv9009_som_xcvr/tx_6_p util_adrv9009_som_xcvr/tx_data_6_p
+#    ad_connect util_adrv9009_som_xcvr/tx_6_n util_adrv9009_som_xcvr/tx_data_6_n
+#    ad_connect util_adrv9009_som_xcvr/tx_7_p util_adrv9009_som_xcvr/tx_data_7_p
+#    ad_connect util_adrv9009_som_xcvr/tx_7_n util_adrv9009_som_xcvr/tx_data_7_n
+
     if {$TX_NUM_OF_LANES == 4} {
-      ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_tx_xcvr axi_adrv9009_som_tx_jesd {0 1 4 5} core_clk_a
+      ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_tx_xcvr axi_adrv9009_som_tx_jesd {0 1 4 5} core_clk_a {} $MAX_TX_NUM_OF_LANES
     } else {
-      ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_tx_xcvr axi_adrv9009_som_tx_jesd {0 4} core_clk_a
+      ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_tx_xcvr axi_adrv9009_som_tx_jesd {0 4} core_clk_a {} $MAX_TX_NUM_OF_LANES
+#      ad_connect util_adrv9009_som_xcvr/tx_clk_1 util_adrv9009_som_xcvr/tx_clk_0
+#      ad_connect util_adrv9009_som_xcvr/tx_clk_5 util_adrv9009_som_xcvr/tx_clk_0
+
+#    ad_connect util_adrv9009_som_xcvr/tx_2_p util_adrv9009_som_xcvr/tx_data_2_p
+#    ad_connect util_adrv9009_som_xcvr/tx_2_n util_adrv9009_som_xcvr/tx_data_2_n
+#    ad_connect util_adrv9009_som_xcvr/tx_3_p util_adrv9009_som_xcvr/tx_data_3_p
+#    ad_connect util_adrv9009_som_xcvr/tx_4_n util_adrv9009_som_xcvr/tx_data_3_n
+
+
     }
   }
-}
-
-if {$FMCOMMS8 == 1} {
-  ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_rx_xcvr axi_adrv9009_som_rx_jesd {0 1 4 5 8 9 12 13} core_clk_b
-  ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_obs_xcvr axi_adrv9009_som_obs_jesd {2 3 6 7 10 11 14 15} core_clk_a
-} else {
-  #adrv2crr_fmc
-  if {$RX_NUM_OF_LANES == 4} {
-    ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_rx_xcvr axi_adrv9009_som_rx_jesd {0 1 4 5} core_clk_b
+   if {$RX_NUM_OF_LANES == 4} {
+    ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_rx_xcvr axi_adrv9009_som_rx_jesd {0 1 4 5} core_clk_b {} $MAX_RX_NUM_OF_LANES
   } else {
-    ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_rx_xcvr axi_adrv9009_som_rx_jesd {0 4} core_clk_b
+    ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_rx_xcvr axi_adrv9009_som_rx_jesd {0 4} core_clk_b {} $MAX_RX_NUM_OF_LANES
+#    ad_connect util_adrv9009_som_xcvr/rx_clk_1 util_adrv9009_som_xcvr/rx_clk_0
+#    ad_connect util_adrv9009_som_xcvr/rx_clk_5 util_adrv9009_som_xcvr/rx_clk_0
+#    ad_connect util_adrv9009_som_xcvr/rx_2_p util_adrv9009_som_xcvr/rx_data_2_p
+#    ad_connect util_adrv9009_som_xcvr/rx_2_n util_adrv9009_som_xcvr/rx_data_2_n
+#    ad_connect util_adrv9009_som_xcvr/rx_3_p util_adrv9009_som_xcvr/rx_data_3_p
+#    ad_connect util_adrv9009_som_xcvr/rx_3_n util_adrv9009_som_xcvr/rx_data_3_n
   }
   if {$OBS_NUM_OF_LANES == 4} {
-    ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_obs_xcvr axi_adrv9009_som_obs_jesd {2 3 6 7} core_clk_a
+    ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_obs_xcvr axi_adrv9009_som_obs_jesd {2 3 6 7} core_clk_a {} $MAX_OBS_NUM_OF_LANES
   } else {
-    ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_obs_xcvr axi_adrv9009_som_obs_jesd {2 6} core_clk_a
+    ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_obs_xcvr axi_adrv9009_som_obs_jesd {2 6} core_clk_a {} $MAX_OBS_NUM_OF_LANES
+#    ad_connect util_adrv9009_som_xcvr/rx_clk_3 util_adrv9009_som_xcvr/rx_clk_2
+#    ad_connect util_adrv9009_som_xcvr/rx_clk_7 util_adrv9009_som_xcvr/rx_clk_2
+#    ad_connect util_adrv9009_som_xcvr/rx_2_p util_adrv9009_som_xcvr/rx_data_2_p
+#    ad_connect util_adrv9009_som_xcvr/rx_2_n util_adrv9009_som_xcvr/rx_data_2_n
+#    ad_connect util_adrv9009_som_xcvr/rx_3_p util_adrv9009_som_xcvr/rx_data_3_p
+#    ad_connect util_adrv9009_som_xcvr/rx_3_n util_adrv9009_som_xcvr/rx_data_3_n
   }
-
 }
 
 ad_connect  core_clk_a tx_adrv9009_som_tpl_core/link_clk
