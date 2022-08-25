@@ -1,3 +1,51 @@
+#
+# Parameter description:
+#   [TX/RX/OBS]_JESD_M  : Number of converters per link
+#   [TX/RX/OBS]_JESD_L  : Number of lanes per link
+#   [TX/RX/OBS]_JESD_S  : Number of samples per frame
+#   [TX/RX/OBS]_JESD_NP : Number of bits per sample
+#
+if {$FMCOMMS8 == 1} {
+  set MAX_TX_NUM_OF_LANES 16
+  set MAX_RX_NUM_OF_LANES 8
+  set MAX_OBS_NUM_OF_LANES 8
+} else {
+  set MAX_TX_NUM_OF_LANES 8
+  set MAX_RX_NUM_OF_LANES 4
+  set MAX_OBS_NUM_OF_LANES 4
+}
+
+# TX parameters
+set TX_NUM_OF_LANES $ad_project_params(TX_JESD_L)      ; # L
+set TX_NUM_OF_CONVERTERS $ad_project_params(TX_JESD_M) ; # M
+set TX_SAMPLES_PER_FRAME $ad_project_params(TX_JESD_S) ; # S
+set TX_SAMPLE_WIDTH 16                                 ; # N/NP
+
+set TX_SAMPLES_PER_CHANNEL [expr $TX_NUM_OF_LANES * 32 / \
+                                ($TX_NUM_OF_CONVERTERS * $TX_SAMPLE_WIDTH)] ; # L * 32 / (M * N)
+
+# RX parameters
+set RX_NUM_OF_LANES $ad_project_params(RX_JESD_L)      ; # L
+set RX_NUM_OF_CONVERTERS $ad_project_params(RX_JESD_M) ; # M
+set RX_SAMPLES_PER_FRAME $ad_project_params(RX_JESD_S) ; # S
+set RX_SAMPLE_WIDTH 16                                 ; # N/NP
+
+set RX_SAMPLES_PER_CHANNEL [expr $RX_NUM_OF_LANES * 32 / \
+                                ($RX_NUM_OF_CONVERTERS * $RX_SAMPLE_WIDTH)] ; # L * 32 / (M * N)
+
+# RX Observation parameters
+set OBS_NUM_OF_LANES $ad_project_params(OBS_JESD_L)      ; # L
+set OBS_NUM_OF_CONVERTERS $ad_project_params(OBS_JESD_M) ; # M
+set OBS_SAMPLES_PER_FRAME $ad_project_params(OBS_JESD_S) ; # S
+set OBS_SAMPLE_WIDTH 16                                    ; # N/NP
+
+set OBS_SAMPLES_PER_CHANNEL [expr $OBS_NUM_OF_LANES * 32 / \
+                                   ($OBS_NUM_OF_CONVERTERS * $OBS_SAMPLE_WIDTH)] ; # L * 32 / (M * N)
+
+set dac_fifo_name axi_adrv9009_dacfifo
+set dac_data_width [expr $TX_SAMPLE_WIDTH * $TX_NUM_OF_CONVERTERS * $TX_SAMPLES_PER_CHANNEL]
+set dac_dma_data_width [expr $TX_SAMPLE_WIDTH * $TX_NUM_OF_CONVERTERS * $TX_SAMPLES_PER_CHANNEL]
+
 # default ports
 
 create_bd_port -dir O -from 2 -to 0 spi0_csn
@@ -157,32 +205,6 @@ ad_connect  sys_concat_intc_0/In1 GND
 ad_connect  sys_concat_intc_0/In0 GND
 
 # ADRV9009 Specific Connections
-# TX parameters
-
-set TX_NUM_OF_LANES $ad_project_params(JESD_TX_L); # L
-set TX_NUM_OF_CONVERTERS $ad_project_params(JESD_TX_M) ; # M
-set TX_SAMPLES_PER_FRAME $ad_project_params(JESD_TX_S) ; # S
-set TX_SAMPLE_WIDTH 16     ; # N/NP
-
-set TX_SAMPLES_PER_CHANNEL [expr ($TX_NUM_OF_LANES * 32) / ($TX_NUM_OF_CONVERTERS * $TX_SAMPLE_WIDTH)] ; # L * 32 / (M * N)
-
-# RX parameters
-
-set RX_NUM_OF_LANES $ad_project_params(JESD_RX_L) ; # L
-set RX_NUM_OF_CONVERTERS $ad_project_params(JESD_RX_M) ; # M
-set RX_SAMPLES_PER_FRAME $ad_project_params(JESD_RX_S) ; # S
-set RX_SAMPLE_WIDTH 16     ; # N/NP
-
-set RX_SAMPLES_PER_CHANNEL [expr ($RX_NUM_OF_LANES * 32) / ($RX_NUM_OF_CONVERTERS * $RX_SAMPLE_WIDTH)] ; # L * 32 / (M * N)
-
-# RX Observation parameters
-
-set OBS_NUM_OF_LANES $ad_project_params(JESD_OBS_L) ; # L
-set OBS_NUM_OF_CONVERTERS $ad_project_params(JESD_OBS_M) ; # M
-set OBS_SAMPLES_PER_FRAME $ad_project_params(JESD_OBS_S) ; # S
-set OBS_SAMPLE_WIDTH 16     ; # N/NP
-
-set OBS_SAMPLES_PER_CHANNEL [expr ($OBS_NUM_OF_LANES * 32) / ($OBS_NUM_OF_CONVERTERS * $OBS_SAMPLE_WIDTH)] ;  # L * 32 / (M * N)
 
 create_bd_intf_port -mode Master -vlnv xilinx.com:interface:ddr4_rtl:1.0 ddr4_rtl_1
 create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_clock_rtl:1.0 ddr4_ref_1
@@ -321,8 +343,8 @@ ad_ip_parameter axi_adrv9009_som_obs_dma CONFIG.DMA_DATA_WIDTH_SRC [expr 32*$OBS
 ad_ip_parameter axi_adrv9009_som_obs_dma CONFIG.DMA_DATA_WIDTH_DEST 128
 
 ad_ip_instance util_adxcvr util_adrv9009_som_xcvr
-ad_ip_parameter util_adrv9009_som_xcvr CONFIG.RX_NUM_OF_LANES [expr $RX_NUM_OF_LANES+$OBS_NUM_OF_LANES]
-ad_ip_parameter util_adrv9009_som_xcvr CONFIG.TX_NUM_OF_LANES $TX_NUM_OF_LANES
+ad_ip_parameter util_adrv9009_som_xcvr CONFIG.RX_NUM_OF_LANES [expr $MAX_RX_NUM_OF_LANES+$MAX_OBS_NUM_OF_LANES]
+ad_ip_parameter util_adrv9009_som_xcvr CONFIG.TX_NUM_OF_LANES $MAX_TX_NUM_OF_LANES
 ad_ip_parameter util_adrv9009_som_xcvr CONFIG.TX_OUT_DIV 2
 ad_ip_parameter util_adrv9009_som_xcvr CONFIG.CPLL_FBDIV 4
 ad_ip_parameter util_adrv9009_som_xcvr CONFIG.RX_CLK25_DIV 10
@@ -351,21 +373,41 @@ ad_xcvrpll  axi_adrv9009_som_rx_xcvr/up_pll_rst util_adrv9009_som_xcvr/up_cpll_r
 ad_xcvrpll  axi_adrv9009_som_rx_xcvr/up_pll_rst util_adrv9009_som_xcvr/up_cpll_rst_5
 ad_xcvrpll  axi_adrv9009_som_obs_xcvr/up_pll_rst util_adrv9009_som_xcvr/up_cpll_rst_6
 ad_xcvrpll  axi_adrv9009_som_obs_xcvr/up_pll_rst util_adrv9009_som_xcvr/up_cpll_rst_7
+
 ad_connect  sys_cpu_resetn util_adrv9009_som_xcvr/up_rstn
 ad_connect  sys_cpu_clk util_adrv9009_som_xcvr/up_clk
 
-if {$TX_NUM_OF_LANES == 16} {
-ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_tx_xcvr axi_adrv9009_som_tx_jesd {0 1 2 3 4 5 6 7 9 8 10 11 12 13 14 15 16} core_clk_a
+if {$FMCOMMS8 == 1} {
+  ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_tx_xcvr axi_adrv9009_som_tx_jesd {0 1 2 3 4 5 6 7 9 8 10 11 12 13 14 15 16} core_clk_a
 } else {
-ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_tx_xcvr axi_adrv9009_som_tx_jesd {} core_clk_a
+  # adrv2crr_fmc
+  if {$TX_NUM_OF_LANES == 8} {
+    ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_tx_xcvr axi_adrv9009_som_tx_jesd {} core_clk_a
+  } else {
+    if {$TX_NUM_OF_LANES == 4} {
+      ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_tx_xcvr axi_adrv9009_som_tx_jesd {0 1 4 5} core_clk_a
+    } else {
+      ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_tx_xcvr axi_adrv9009_som_tx_jesd {0 4} core_clk_a
+    }
+  }
 }
 
-if {$RX_NUM_OF_LANES == 8} {
-ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_rx_xcvr axi_adrv9009_som_rx_jesd {0 1 4 5 8 9 12 13} core_clk_b
-ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_obs_xcvr axi_adrv9009_som_obs_jesd {2 3 6 7 10 11 14 15} core_clk_a
+if {$FMCOMMS8 == 1} {
+  ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_rx_xcvr axi_adrv9009_som_rx_jesd {0 1 4 5 8 9 12 13} core_clk_b
+  ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_obs_xcvr axi_adrv9009_som_obs_jesd {2 3 6 7 10 11 14 15} core_clk_a
 } else {
-ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_rx_xcvr axi_adrv9009_som_rx_jesd {0 1 4 5} core_clk_b
-ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_obs_xcvr axi_adrv9009_som_obs_jesd {2 3 6 7} core_clk_a
+  #adrv2crr_fmc
+  if {$RX_NUM_OF_LANES == 4} {
+    ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_rx_xcvr axi_adrv9009_som_rx_jesd {0 1 4 5} core_clk_b
+  } else {
+    ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_rx_xcvr axi_adrv9009_som_rx_jesd {0 4} core_clk_b
+  }
+  if {$OBS_NUM_OF_LANES == 4} {
+    ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_obs_xcvr axi_adrv9009_som_obs_jesd {2 3 6 7} core_clk_a
+  } else {
+    ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_obs_xcvr axi_adrv9009_som_obs_jesd {2 6} core_clk_a
+  }
+
 }
 
 ad_connect  core_clk_a tx_adrv9009_som_tpl_core/link_clk
