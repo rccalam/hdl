@@ -239,6 +239,8 @@ module axi_ad7606 #(
         .up_adc_pn_err (),
         .up_adc_pn_oos (),
         .up_adc_or (),
+        .adc_read_data (rd_data_s),
+        .adc_read_req (rd_req_s),
         .up_usr_datatype_be (),
         .up_usr_datatype_signed (),
         .up_usr_datatype_shift (),
