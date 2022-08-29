@@ -506,34 +506,40 @@ proc ad_xcvrcon {u_xcvr a_xcvr a_jesd {lane_map {}} {link_clk {}} {device_clk {}
         }
       }
 
-      create_bd_port -dir ${data_dir} ${m_data}_${phys_lane}_p
-      create_bd_port -dir ${data_dir} ${m_data}_${phys_lane}_n
-      ad_connect  ${u_xcvr}/${txrx}_${phys_lane}_p ${m_data}_${phys_lane}_p
-      ad_connect  ${u_xcvr}/${txrx}_${phys_lane}_n ${m_data}_${phys_lane}_n
+      create_bd_port -dir ${data_dir} ${m_data}_${m}_p
+      create_bd_port -dir ${data_dir} ${m_data}_${m}_n
+      ad_connect  ${u_xcvr}/${txrx}_${m}_p ${m_data}_${m}_p
+      ad_connect  ${u_xcvr}/${txrx}_${m}_n ${m_data}_${m}_n
+
+#      create_bd_port -dir ${data_dir} ${m_data}_${phys_lane}_p
+#      create_bd_port -dir ${data_dir} ${m_data}_${phys_lane}_n
+#      ad_connect  ${u_xcvr}/${txrx}_${phys_lane}_p ${m_data}_${phys_lane}_p
+#      ad_connect  ${u_xcvr}/${txrx}_${phys_lane}_n ${m_data}_${phys_lane}_n
+
     }
 
 ### trebuie pus phy_lanes in loc de m
 
-#    for {set n $no_of_lanes} {$n < $max_no_of_lanes} {incr n} {
+    for {set n $no_of_lanes} {$n < $max_no_of_lanes} {incr n} {
 
-#      set m [expr ($n + $index)]
-#      puts "518 remaining map index: $m"
-#      if {$lane_map != {}} {
-#        set phys_lane [lindex $lane_map $n]
-#      } else {
-#        set phys_lane $m
-#      }
-#      puts "518 remaining map phy: $phys_lane"
-#      #create_bd_port -dir ${data_dir} ${m_data}_${m}_p
-#      #create_bd_port -dir ${data_dir} ${m_data}_${m}_n
-#      ad_connect  ${u_xcvr}/${txrx}_${m}_p ${m_data}_${m}_p
-#      ad_connect  ${u_xcvr}/${txrx}_${m}_n ${m_data}_${m}_n
-#      ad_connect  ${link_clk} ${u_xcvr}/${txrx}_clk_${phys_lane}
+      set m [expr ($n + $index)]
+      puts "518 remaining map index: $m"
+      if {$lane_map != {}} {
+        set phys_lane [lindex $lane_map $n]
+      } else {
+        set phys_lane $m
+      }
+      puts "518 remaining map phy: $phys_lane"
+      create_bd_port -dir ${data_dir} ${m_data}_${m}_p
+      create_bd_port -dir ${data_dir} ${m_data}_${m}_n
+      ad_connect  ${u_xcvr}/${txrx}_${m}_p ${m_data}_${m}_p
+      ad_connect  ${u_xcvr}/${txrx}_${m}_n ${m_data}_${m}_n
+      ad_connect  ${link_clk} ${u_xcvr}/${txrx}_clk_${phys_lane}
 
-#      if {$tx_or_rx_n == 0} {
-#        ad_connect  ${a_jesd}/phy_en_char_align ${u_xcvr}/${txrx}_calign_${phys_lane}
-#      }
-#    }
+      if {$tx_or_rx_n == 0} {
+        ad_connect  ${a_jesd}/phy_en_char_align ${u_xcvr}/${txrx}_calign_${phys_lane}
+      }
+    }
   }
   
   if {$jesd204_type == 0} {
