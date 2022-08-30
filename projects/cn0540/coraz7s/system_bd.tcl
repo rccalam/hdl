@@ -1,7 +1,9 @@
 source $ad_hdl_dir/projects/common/coraz7s/coraz7s_system_bd.tcl
 source $ad_hdl_dir/projects/scripts/adi_pd.tcl
 
-#system ID
+ad_mem_hp0_interconnect $sys_cpu_clk sys_ps7/S_AXI_HP1
+
+# system ID
 ad_ip_parameter axi_sysid_0 CONFIG.ROM_ADDR_BITS 9
 ad_ip_parameter rom_sys_0 CONFIG.PATH_TO_FILE "[pwd]/mem_init_sys.txt"
 ad_ip_parameter rom_sys_0 CONFIG.ROM_ADDR_BITS 9
@@ -11,4 +13,3 @@ sysid_gen_sys_init_file
 set sys_dma_clk [get_bd_nets sys_dma_clk]
 
 source ../common/cn0540_bd.tcl
-
