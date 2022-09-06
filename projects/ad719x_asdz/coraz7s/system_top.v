@@ -66,7 +66,7 @@ module system_top (
   // ad7190 spi pins
 
   output          adc_spi_sclk,
-  input           adc_spi_miso,
+  input           adc_spi_miso_rdyn,
   output          adc_spi_mosi,
   output          adc_spi_csn
 );
@@ -96,8 +96,12 @@ module system_top (
     .dio_p (led));
 
   // project specific gpios
-  assign gpio_i[63:32] = gpio_o[63:32];
+
+  assign gpio_i[63:33] = gpio_o[63:33];
+  assign gpio_i[32] = adc_spi_miso_rdyn;
+
   // board specific gpios
+
   assign gpio_i[31:8] = gpio_o[31:8];
 
   system_wrapper i_system_wrapper (
@@ -133,8 +137,8 @@ module system_top (
     .spi0_csn_0_o (adc_spi_csn),
     .spi0_csn_1_o (),
     .spi0_csn_2_o (),
-    .spi0_csn_i (1'b1),
-    .spi0_sdi_i (adc_spi_miso),
+    .spi0_csn_i (1'b0),
+    .spi0_sdi_i (adc_spi_miso_rdyn),
     .spi0_sdo_i (adc_spi_mosi),
     .spi0_sdo_o (adc_spi_mosi),
 
