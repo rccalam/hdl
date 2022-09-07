@@ -524,19 +524,19 @@ if {$FMCOMMS8 == 1} {
     ad_connect util_adrv9009_som_xcvr/tx_clk_6 util_adrv9009_som_xcvr/tx_clk_0
     ad_connect util_adrv9009_som_xcvr/tx_clk_7 util_adrv9009_som_xcvr/tx_clk_0
 
-    create_bd_port -dir O tx_data_2_p
-    create_bd_port -dir O tx_data_2_n
-    create_bd_port -dir O tx_data_3_p
-    create_bd_port -dir O tx_data_3_n
+    create_bd_port -dir O tx_data_4_p
+    create_bd_port -dir O tx_data_4_n
+    create_bd_port -dir O tx_data_5_p
+    create_bd_port -dir O tx_data_5_n
     create_bd_port -dir O tx_data_6_p
     create_bd_port -dir O tx_data_6_n
     create_bd_port -dir O tx_data_7_p
     create_bd_port -dir O tx_data_7_n
 
-    ad_connect util_adrv9009_som_xcvr/tx_2_p tx_data_2_p
-    ad_connect util_adrv9009_som_xcvr/tx_2_n tx_data_2_n
-    ad_connect util_adrv9009_som_xcvr/tx_3_p tx_data_3_p
-    ad_connect util_adrv9009_som_xcvr/tx_3_n tx_data_3_n
+    ad_connect util_adrv9009_som_xcvr/tx_4_p tx_data_4_p
+    ad_connect util_adrv9009_som_xcvr/tx_4_n tx_data_4_n
+    ad_connect util_adrv9009_som_xcvr/tx_5_p tx_data_5_p
+    ad_connect util_adrv9009_som_xcvr/tx_5_n tx_data_5_n
     ad_connect util_adrv9009_som_xcvr/tx_6_p tx_data_6_p
     ad_connect util_adrv9009_som_xcvr/tx_6_n tx_data_6_n
     ad_connect util_adrv9009_som_xcvr/tx_7_p tx_data_7_p
@@ -549,15 +549,15 @@ if {$FMCOMMS8 == 1} {
       ad_connect util_adrv9009_som_xcvr/tx_clk_1 util_adrv9009_som_xcvr/tx_clk_0
       ad_connect util_adrv9009_som_xcvr/tx_clk_5 util_adrv9009_som_xcvr/tx_clk_0
 
-      create_bd_port -dir O tx_data_1_p
-      create_bd_port -dir O tx_data_1_n
-      create_bd_port -dir O tx_data_5_p
-      create_bd_port -dir O tx_data_5_n
+      create_bd_port -dir O tx_data_2_p
+      create_bd_port -dir O tx_data_2_n
+      create_bd_port -dir O tx_data_3_p
+      create_bd_port -dir O tx_data_3_n
 
-      ad_connect util_adrv9009_som_xcvr/tx_1_p tx_data_1_p
-      ad_connect util_adrv9009_som_xcvr/tx_1_n tx_data_1_n
-      ad_connect util_adrv9009_som_xcvr/tx_5_p tx_data_5_p
-      ad_connect util_adrv9009_som_xcvr/tx_5_n tx_data_5_n
+      ad_connect util_adrv9009_som_xcvr/tx_2_p tx_data_2_p
+      ad_connect util_adrv9009_som_xcvr/tx_2_n tx_data_2_n
+      ad_connect util_adrv9009_som_xcvr/tx_3_p tx_data_3_p
+      ad_connect util_adrv9009_som_xcvr/tx_3_n tx_data_3_n
 
 
     }
@@ -569,15 +569,26 @@ if {$FMCOMMS8 == 1} {
     ad_connect util_adrv9009_som_xcvr/rx_clk_1 util_adrv9009_som_xcvr/rx_clk_0
     ad_connect util_adrv9009_som_xcvr/rx_clk_5 util_adrv9009_som_xcvr/rx_clk_0
 
-    create_bd_port -dir I rx_data_1_p
-    create_bd_port -dir I rx_data_1_n
-    create_bd_port -dir I rx_data_5_p
-    create_bd_port -dir I rx_data_5_n
+#    create_bd_port -dir I rx_data_1_p
+#    create_bd_port -dir I rx_data_1_n
+#    create_bd_port -dir I rx_data_5_p
+#    create_bd_port -dir I rx_data_5_n
 
-    ad_connect util_adrv9009_som_xcvr/rx_1_p rx_data_1_p
-    ad_connect util_adrv9009_som_xcvr/rx_1_n rx_data_1_n
-    ad_connect util_adrv9009_som_xcvr/rx_5_p rx_data_5_p
-    ad_connect util_adrv9009_som_xcvr/rx_5_n rx_data_5_n
+#    ad_connect util_adrv9009_som_xcvr/rx_1_p rx_data_1_p
+#    ad_connect util_adrv9009_som_xcvr/rx_1_n rx_data_1_n
+#    ad_connect util_adrv9009_som_xcvr/rx_5_p rx_data_5_p
+#    ad_connect util_adrv9009_som_xcvr/rx_5_n rx_data_5_n
+
+#    create_bd_port -dir I rx_data_1_p
+#    create_bd_port -dir I rx_data_1_n
+#    create_bd_port -dir I rx_data_5_p
+#    create_bd_port -dir I rx_data_5_n
+
+#    ad_connect util_adrv9009_som_xcvr/rx_1_p rx_data_1_p
+#    ad_connect util_adrv9009_som_xcvr/rx_1_n rx_data_1_n
+#    ad_connect util_adrv9009_som_xcvr/rx_5_p rx_data_5_p
+#    ad_connect util_adrv9009_som_xcvr/rx_5_n rx_data_5_n
+
   }
   if {$OBS_NUM_OF_LANES == 4} {
     ad_xcvrcon  util_adrv9009_som_xcvr axi_adrv9009_som_obs_xcvr axi_adrv9009_som_obs_jesd {2 3 6 7} core_clk_a {} $MAX_OBS_NUM_OF_LANES
@@ -586,15 +597,25 @@ if {$FMCOMMS8 == 1} {
     ad_connect util_adrv9009_som_xcvr/rx_clk_3 util_adrv9009_som_xcvr/rx_clk_2
     ad_connect util_adrv9009_som_xcvr/rx_clk_7 util_adrv9009_som_xcvr/rx_clk_2
 
-    create_bd_port -dir I rx_data_3_p
-    create_bd_port -dir I rx_data_3_n
-    create_bd_port -dir I rx_data_7_p
-    create_bd_port -dir I rx_data_7_n
+#    create_bd_port -dir I rx_data_3_p
+#    create_bd_port -dir I rx_data_3_n
+#    create_bd_port -dir I rx_data_7_p
+#    create_bd_port -dir I rx_data_7_n
+#
+#    ad_connect util_adrv9009_som_xcvr/rx_3_p rx_data_3_p
+#    ad_connect util_adrv9009_som_xcvr/rx_3_n rx_data_3_n
+#    ad_connect util_adrv9009_som_xcvr/rx_7_p rx_data_7_p
+#    ad_connect util_adrv9009_som_xcvr/rx_7_n rx_data_7_n
+#    create_bd_port -dir I rx_data_3_p
+#    create_bd_port -dir I rx_data_3_n
+#    create_bd_port -dir I rx_data_7_p
+#    create_bd_port -dir I rx_data_7_n
+#
+#    ad_connect util_adrv9009_som_xcvr/rx_3_p rx_data_3_p
+#    ad_connect util_adrv9009_som_xcvr/rx_3_n rx_data_3_n
+#    ad_connect util_adrv9009_som_xcvr/rx_7_p rx_data_7_p
+#    ad_connect util_adrv9009_som_xcvr/rx_7_n rx_data_7_n
 
-    ad_connect util_adrv9009_som_xcvr/rx_3_p rx_data_3_p
-    ad_connect util_adrv9009_som_xcvr/rx_3_n rx_data_3_n
-    ad_connect util_adrv9009_som_xcvr/rx_7_p rx_data_7_p
-    ad_connect util_adrv9009_som_xcvr/rx_7_n rx_data_7_n
   }
 }
 

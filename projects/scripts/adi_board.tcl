@@ -420,7 +420,7 @@ proc ad_xcvrcon {u_xcvr a_xcvr a_jesd {lane_map {}} {link_clk {}} {device_clk {}
     for {set n 0} {$n < $no_of_lanes} {incr n} {
 
       set phys_lane [lindex $partial_lane_map $n]
-    
+
       if {$phys_lane != {}} {
         if {$jesd204_type == 0} {
           ad_connect  ${u_xcvr}/${txrx}_${phys_lane} ${a_jesd}/${txrx}_phy${n}
@@ -443,17 +443,15 @@ proc ad_xcvrcon {u_xcvr a_xcvr a_jesd {lane_map {}} {link_clk {}} {device_clk {}
     for {set n 0} {$n < $max_no_of_lanes} {incr n} {
 
       set m [expr ($n + $index)]
-      puts "445 partial map index: $m"
       if {$lane_map != {}} {
         set phys_lane [lindex $lane_map $n]
       } else {
         set phys_lane $m
       }
-      puts "445 partial map phy: $phys_lane"
       if {$tx_or_rx_n == 0} {
         ad_connect  ${a_xcvr}/up_es_${n} ${u_xcvr}/up_es_${phys_lane}
       }
-      
+
       if {(($n%4) == 0) && ($qpll_enable == 1)} {
         ad_connect  ${a_xcvr}/up_cm_${n} ${u_xcvr}/up_cm_${n}
       }
@@ -472,13 +470,11 @@ proc ad_xcvrcon {u_xcvr a_xcvr a_jesd {lane_map {}} {link_clk {}} {device_clk {}
     for {set n 0} {$n < $no_of_lanes} {incr n} {
 
       set m [expr ($n + $index)]
-      puts "475 lane map index: $m"
       if {$lane_map != {}} {
         set phys_lane [lindex $lane_map $n]
       } else {
         set phys_lane $m
       }
-      puts "475 lane map phy: $phys_lane"
       if {$tx_or_rx_n == 0} {
         ad_connect  ${a_xcvr}/up_es_${n} ${u_xcvr}/up_es_${phys_lane}
         if {$jesd204_type == 0} {
@@ -506,10 +502,10 @@ proc ad_xcvrcon {u_xcvr a_xcvr a_jesd {lane_map {}} {link_clk {}} {device_clk {}
         }
       }
 
-      create_bd_port -dir ${data_dir} ${m_data}_${phys_lane}_p
-      create_bd_port -dir ${data_dir} ${m_data}_${phys_lane}_n
-      ad_connect  ${u_xcvr}/${txrx}_${phys_lane}_p ${m_data}_${phys_lane}_p
-      ad_connect  ${u_xcvr}/${txrx}_${phys_lane}_n ${m_data}_${phys_lane}_n
+      create_bd_port -dir ${data_dir} ${m_data}_${m}_p
+      create_bd_port -dir ${data_dir} ${m_data}_${m}_n
+      ad_connect  ${u_xcvr}/${txrx}_${m}_p ${m_data}_${m}_p
+      ad_connect  ${u_xcvr}/${txrx}_${m}_n ${m_data}_${m}_n
     }
 
 ### trebuie pus phy_lanes in loc de m
@@ -535,7 +531,7 @@ proc ad_xcvrcon {u_xcvr a_xcvr a_jesd {lane_map {}} {link_clk {}} {device_clk {}
 #      }
 #    }
   }
-  
+
   if {$jesd204_type == 0} {
     ad_connect  ${a_jesd}/sysref $m_sysref
     if {$link_mode == 1} {
