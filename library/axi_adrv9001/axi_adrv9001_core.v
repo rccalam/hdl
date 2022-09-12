@@ -470,6 +470,7 @@ module axi_adrv9001_core #(
     .adc_sdr_ddr_n (rx2_sdr_ddr_n_loc),
     .adc_symb_op (rx2_symb_op_loc),
     .adc_symb_8_16b (rx2_symb_8_16b_loc),
+    .up_adc_r1_mode (),
 
     .adc_clk_ratio (adc_clk_ratio),
 
@@ -486,8 +487,13 @@ module axi_adrv9001_core #(
     .adc_data_i0 (adc_2_data_i[15:0]),
     .adc_enable_q0 (adc_2_enable_q),
     .adc_data_q0 (adc_2_data_q[15:0]),
+    .adc_enable_i1 (),
+    .adc_data_i1 (),
+    .adc_enable_q1 (),
+    .adc_data_q1 (),
 
     .adc_dovf (adc_2_dovf),
+    .adc_sync (),
     .up_rstn (up_rstn),
     .up_clk (up_clk),
     .up_wreq (up_wreq),
