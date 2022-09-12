@@ -154,7 +154,8 @@ module adrv9001_rx_link #(
       .ivalid (aligner4_ovalid),
       .sof (sdr_data_strobe_aligned[3]),
       .odata (sdr_data_0_packed),
-      .ovalid (sdr_data_valid));
+      .ovalid (sdr_data_valid),
+      .osof ());
 
     adrv9001_pack #(
       .WIDTH(4)
@@ -165,17 +166,20 @@ module adrv9001_rx_link #(
       .ivalid (aligner4_ovalid),
       .sof (sdr_data_strobe_aligned[3]),
       .odata (sdr_data_1_packed),
-      .ovalid ());
+      .ovalid (),
+      .osof ());
 
     adrv9001_pack #(
       .WIDTH(4)
     ) i_rx_pack_4_to_8_2 (
       .clk (adc_clk_div),
+      .rst ('d0),
       .idata (sdr_data_2_aligned),
       .ivalid (aligner4_ovalid),
       .sof (sdr_data_strobe_aligned[3]),
       .odata (sdr_data_2_packed),
-      .ovalid ());
+      .ovalid (),
+      .osof ());
 
     adrv9001_pack #(
       .WIDTH(4)
@@ -186,7 +190,8 @@ module adrv9001_rx_link #(
       .ivalid (aligner4_ovalid),
       .sof (sdr_data_strobe_aligned[3]),
       .odata (sdr_data_3_packed),
-      .ovalid ());
+      .ovalid (),
+      .osof ());
 
     adrv9001_pack #(
       .WIDTH(4)
@@ -197,7 +202,8 @@ module adrv9001_rx_link #(
       .ivalid (aligner4_ovalid),
       .sof (sdr_data_strobe_aligned[3]),
       .odata (sdr_data_strobe_packed),
-      .ovalid ());
+      .ovalid (),
+      .osof ());
 
     assign data_0 = rx_sdr_ddr_n ? sdr_data_0_packed : adc_data_0;
     assign data_1 = rx_sdr_ddr_n ? sdr_data_1_packed : adc_data_1;
