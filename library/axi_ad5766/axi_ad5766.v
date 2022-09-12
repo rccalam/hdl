@@ -306,7 +306,8 @@ module axi_ad5766 #(
     .pulse_width (1'b1),
     .pulse_period (pulse_period_s),
     .load_config (1'b1),
-    .pulse (trigger_s));
+    .pulse (trigger_s),
+    .pulse_counter ());
 
   // offset of the sequencer registers are 8'h40
 

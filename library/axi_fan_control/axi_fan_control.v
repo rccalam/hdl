@@ -321,7 +321,8 @@ module axi_fan_control #(
     .pulse_width (pwm_width),
     .pulse_period (PWM_PERIOD),
     .load_config (pulse_gen_load_config),
-    .pulse (pulse_gen_out));
+    .pulse (pulse_gen_out),
+    .pulse_counter ());
 
   //state machine
   always @(posedge up_clk)

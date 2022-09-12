@@ -70,7 +70,8 @@ module util_tdd_sync #(
     .pulse_width (32'd0),
     .pulse_period (32'd0),
     .load_config (1'd0),
-    .pulse (sync_internal));
+    .pulse (sync_internal),
+    .pulse_counter ());
 
   // synchronization logic
 
