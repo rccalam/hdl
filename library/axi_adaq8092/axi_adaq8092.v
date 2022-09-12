@@ -314,6 +314,7 @@ module axi_adaq8092 #(
     .adc_ext_sync_arm(),
     .adc_ext_sync_disarm(),
     .adc_ext_sync_manual_req(),
+    .adc_crc_enable (),
     .adc_num_lanes(),
     .adc_symb_op(),
     .adc_symb_8_16b(),
