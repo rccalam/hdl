@@ -99,10 +99,16 @@ module src_fifo_inf #(
 
     .request_id(request_id),
     .response_id(response_id),
+    .rewind_req_valid (),
+    .rewind_req_ready ('d0),
+    .rewind_req_data (),
     .eot(eot),
 
     .bl_valid(bl_valid),
     .bl_ready(bl_ready),
+    .block_descr_to_dst (),
+    .source_id (),
+    .source_eot (),
     .measured_last_burst_length(measured_last_burst_length),
 
     .req_valid(req_valid),
@@ -114,6 +120,7 @@ module src_fifo_inf #(
     .s_axi_ready(ready),
     .s_axi_valid(valid),
     .s_axi_data(din),
+    .m_axi_partial_burst (),
     .s_axi_sync(sync),
     .s_axi_last(1'b0),
 
