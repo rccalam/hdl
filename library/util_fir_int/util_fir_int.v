@@ -69,6 +69,12 @@ module util_fir_int (
   assign s_axis_data_tvalid_s = (interpolate == 1'b1) ? s_axis_data_tvalid_r : s_axis_data_tvalid;
 
   fir_interp interpolator (
+    .clk ('d0),
+    .clk_enable ('d0),
+    .reset ('d0),
+    .filter_in ('d0),
+    .filter_out (),
+    .ce_out (),
     .aclk(aclk),
     .s_axis_data_tvalid(s_axis_data_tvalid_s),
     .s_axis_data_tready(),
