@@ -248,6 +248,7 @@ module util_adcfifo #(
     .inf_valid (dma_wr_int_s),
     .inf_last (),
     .inf_data (dma_wdata),
-    .inf_ready (dma_wready));
+    .inf_ready (dma_wready),
+    .int_not_full ());
 
 endmodule

@@ -213,7 +213,8 @@ module axi_dacfifo_wr #(
     .inf_valid (axi_wvalid),
     .inf_last (axi_wlast),
     .inf_data (axi_wdata),
-    .inf_ready (axi_wready));
+    .inf_ready (axi_wready),
+    .int_not_full ());
 
   // reset signals - all the registers reset at the positive edge of
   // dma_xfer_req
