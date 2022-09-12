@@ -371,6 +371,7 @@ module axi_ad7616 #(
       .sync_ready (m_sync_ready_s),
       .sync_valid (m_sync_valid_s),
       .sync (m_sync_s),
+      .echo_sclk ('d0),
       .sclk (rx_sclk),
       .sdo (rx_sdo),
       .sdo_t (),
