@@ -136,7 +136,8 @@ module axi_adrv9001_tx_channel #(
     .reset (dac_rst),
     .clk_en (dac_data_in_req),
     .pn_init (1'b0),
-    .pn_data_out (pn7_data));
+    .pn_data_out (pn7_data),
+    .pn_data_in ('d0));
 
   // PN15 x^15 + x^14 + 1
   ad_pngen  #(
@@ -148,7 +149,8 @@ module axi_adrv9001_tx_channel #(
     .reset (dac_rst),
     .clk_en (dac_data_in_req),
     .pn_init (1'b0),
-    .pn_data_out (pn15_data));
+    .pn_data_out (pn15_data),
+    .pn_data_in ('d0));
 
   // full ramp generator
   always @(posedge dac_clk) begin
