@@ -290,6 +290,8 @@ module axi_adrv9001_rx_channel #(
     .adc_pn_err (adc_pn_err_s & valid_seq_sel),
     .adc_pn_oos (adc_pn_oos_s & valid_seq_sel),
     .adc_or (1'd0),
+    .adc_status_header ('d0),
+    .adc_crc_err ('d0),
     .up_adc_pn_err (up_adc_pn_err),
     .up_adc_pn_oos (up_adc_pn_oos),
     .up_adc_or (up_adc_or),

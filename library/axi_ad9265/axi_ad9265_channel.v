@@ -153,6 +153,8 @@ module axi_ad9265_channel #(
     .adc_pn_err (adc_pn_err_s),
     .adc_pn_oos (adc_pn_oos_s),
     .adc_or (adc_or),
+    .adc_status_header ('d0),
+    .adc_crc_err ('d0),
     .up_adc_pn_err (up_adc_pn_err),
     .up_adc_pn_oos (up_adc_pn_oos),
     .up_adc_or (up_adc_or),
