@@ -241,6 +241,7 @@ module axi_xcvrlb_1 #(
     .adc_valid_in (1'b1),
     .adc_data_in (rx_data),
     .adc_data_pn (rx_pn_data),
+    .adc_pattern_has_zero ('d0),
     .adc_pn_oos (rx_pn_oos_s),
     .adc_pn_err (rx_pn_err_s));
 

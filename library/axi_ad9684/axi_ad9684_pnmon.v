@@ -167,6 +167,7 @@ module axi_ad9684_pnmon (
     .adc_valid_in (1'b1),
     .adc_data_in (adc_pn_data_in),
     .adc_data_pn (adc_pn_data_pn),
+    .adc_pattern_has_zero ('d0),
     .adc_pn_oos (adc_pn_oos),
     .adc_pn_err (adc_pn_err));
 

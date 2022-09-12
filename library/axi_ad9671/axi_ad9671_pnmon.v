@@ -174,6 +174,7 @@ module axi_ad9671_pnmon (
     .adc_valid_in (adc_pn_valid_s),
     .adc_data_in (adc_pn_data_in),
     .adc_data_pn (adc_pn_data_pn),
+    .adc_pattern_has_zero ('d0),
     .adc_pn_oos (adc_pn_oos),
     .adc_pn_err (adc_pn_err));
 

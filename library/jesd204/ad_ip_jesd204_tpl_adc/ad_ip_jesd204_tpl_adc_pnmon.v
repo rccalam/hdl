@@ -113,6 +113,7 @@ module ad_ip_jesd204_tpl_adc_pnmon #(
     .adc_valid_in (1'b1),
     .adc_data_in (pn_data_in_s),
     .adc_data_pn (pn_data_pn[DW:0]),
+    .adc_pattern_has_zero ('d0),
     .adc_pn_oos (pn_oos),
     .adc_pn_err (pn_err));
 
