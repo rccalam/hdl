@@ -57,6 +57,12 @@ module util_fir_dec (
   assign m_axis_data_tdata = (decimate == 1'b1) ? {m_axis_data_tdata_s[30:16], 1'b0, m_axis_data_tdata_s[14:0], 1'b0} : {channel_1, channel_0};
 
   fir_decim decimator (
+    .clk ('d0),
+    .clk_enable ('d0),
+    .reset ('d0),
+    .filter_in ('d0),
+    .filter_out (),
+    .ce_out (),
     .aclk(aclk),
     .s_axis_data_tvalid(s_axis_data_tvalid),
     .s_axis_data_tready(s_axis_data_tready),
