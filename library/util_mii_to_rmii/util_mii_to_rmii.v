@@ -185,6 +185,7 @@ module util_mii_to_rmii #(
     .mii_rx_clk(mii_rx_clk_r2),
     .phy_rxd(phy_rxd_r2),
     .phy_crs_dv(phy_crs_dv_r2),
+    .mii_col (),
     .phy_rx_er(phy_rx_er_r2));
 
 endmodule
