@@ -122,10 +122,13 @@ module axi_dmac_response_manager #(
     .s_axis_valid(dest_response_valid),
     .s_axis_ready(dest_response_ready),
     .s_axis_full(),
+    .m_axis_tkeep (),
+    .m_axis_tlast (),
     .s_axis_data({dest_response_data_burst_length,
                   dest_response_partial,
                   dest_response_resp_eot}),
     .s_axis_room(),
+    .m_axis_almost_empty (),
 
     .m_axis_aclk(req_clk),
     .m_axis_aresetn(req_resetn),
@@ -134,8 +137,11 @@ module axi_dmac_response_manager #(
     .m_axis_data({response_dest_data_burst_length,
                   response_dest_partial,
                   response_dest_resp_eot}),
+    .s_axis_tkeep ('d0),
+    .s_axis_tlast ('d0),
     .m_axis_level(),
-    .m_axis_empty());
+    .m_axis_empty(),
+    .s_axis_almost_full ());
 
   always @(posedge req_clk)
   begin

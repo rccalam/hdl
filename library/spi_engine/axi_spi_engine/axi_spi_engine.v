@@ -420,6 +420,7 @@ module axi_spi_engine #(
     .s_axis_ready(cmd_fifo_in_ready),
     .s_axis_valid(cmd_fifo_in_valid),
     .s_axis_data(cmd_fifo_in_data),
+    .m_axis_tkeep (),
     .s_axis_room(cmd_fifo_room),
     .s_axis_tlast(1'b0),
     .s_axis_full(),
@@ -429,6 +430,7 @@ module axi_spi_engine #(
     .m_axis_ready(cmd_ready),
     .m_axis_valid(cmd_valid),
     .m_axis_data(cmd_data),
+    .s_axis_tkeep ('d0),
     .m_axis_tlast(),
     .m_axis_empty(),
     .m_axis_almost_empty(cmd_fifo_almost_empty),
@@ -450,6 +452,7 @@ module axi_spi_engine #(
     .s_axis_ready(sdo_fifo_in_ready),
     .s_axis_valid(sdo_fifo_in_valid),
     .s_axis_data(sdo_fifo_in_data),
+    .m_axis_tkeep (),
     .s_axis_room(sdo_fifo_room),
     .s_axis_tlast(1'b0),
     .s_axis_full(),
@@ -459,6 +462,7 @@ module axi_spi_engine #(
     .m_axis_ready(sdo_data_ready),
     .m_axis_valid(sdo_data_valid),
     .m_axis_data(sdo_data),
+    .s_axis_tkeep ('d0),
     .m_axis_tlast(),
     .m_axis_level(),
     .m_axis_empty(),
@@ -479,6 +483,7 @@ module axi_spi_engine #(
     .s_axis_ready(sdi_data_ready),
     .s_axis_valid(sdi_data_valid),
     .s_axis_data(sdi_data),
+    .m_axis_tkeep (),
     .s_axis_room(),
     .s_axis_tlast(),
     .s_axis_full(),
@@ -488,6 +493,7 @@ module axi_spi_engine #(
     .m_axis_ready(sdi_fifo_out_ready),
     .m_axis_valid(sdi_fifo_out_valid),
     .m_axis_data(sdi_fifo_out_data),
+    .s_axis_tkeep ('d0),
     .m_axis_tlast(),
     .m_axis_level(sdi_fifo_level),
     .m_axis_empty(),
@@ -507,15 +513,21 @@ module axi_spi_engine #(
       .s_axis_ready(sync_ready),
       .s_axis_valid(sync_valid),
       .s_axis_data(sync_data),
+      .m_axis_tkeep (),
+      .m_axis_tlast (),
       .s_axis_room(),
       .s_axis_full(),
+      .m_axis_almost_empty (),
       .m_axis_aclk(clk),
       .m_axis_aresetn(up_sw_resetn),
       .m_axis_ready(1'b1),
       .m_axis_valid(sync_fifo_valid),
       .m_axis_data(sync_fifo_data),
+      .s_axis_tkeep ('d0),
+      .s_axis_tlast ('d0),
       .m_axis_level(),
-      .m_axis_empty());
+      .m_axis_empty(),
+      .s_axis_almost_full ());
 
     // synchronization FIFO for the offload command interface
     wire up_offload0_cmd_wr_en_s;
@@ -532,15 +544,21 @@ module axi_spi_engine #(
       .s_axis_ready(),
       .s_axis_valid(up_offload0_cmd_wr_en_s),
       .s_axis_data(up_offload0_cmd_wr_data_s),
+      .m_axis_tkeep (),
+      .m_axis_tlast (),
       .s_axis_room(),
       .s_axis_full(),
+      .m_axis_almost_empty (),
       .m_axis_aclk(spi_clk),
       .m_axis_aresetn(spi_resetn),
       .m_axis_ready(1'b1),
       .m_axis_valid(offload0_cmd_wr_en),
       .m_axis_data(offload0_cmd_wr_data),
+      .s_axis_tkeep ('d0),
+      .s_axis_tlast ('d0),
       .m_axis_level(),
-      .m_axis_empty());
+      .m_axis_empty(),
+      .s_axis_almost_full ());
 
     assign up_offload0_cmd_wr_en_s = up_wreq_s == 1'b1 && up_waddr_s == 8'h44;
     assign up_offload0_cmd_wr_data_s = up_wdata_s[15:0];
@@ -560,15 +578,21 @@ module axi_spi_engine #(
       .s_axis_ready(),
       .s_axis_valid(up_offload0_sdo_wr_en_s),
       .s_axis_data(up_offload0_sdo_wr_data_s),
+      .m_axis_tkeep (),
+      .m_axis_tlast (),
       .s_axis_room(),
       .s_axis_full(),
+      .m_axis_almost_empty (),
       .m_axis_aclk(spi_clk),
       .m_axis_aresetn(spi_resetn),
       .m_axis_ready(1'b1),
       .m_axis_valid(offload0_sdo_wr_en),
       .m_axis_data(offload0_sdo_wr_data),
+      .s_axis_tkeep ('d0),
+      .s_axis_tlast ('d0),
       .m_axis_level(),
-      .m_axis_empty());
+      .m_axis_empty(),
+      .s_axis_almost_full ());
 
     assign up_offload0_sdo_wr_en_s = up_wreq_s == 1'b1 && up_waddr_s == 8'h45;
     assign up_offload0_sdo_wr_data_s = up_wdata_s[DATA_WIDTH-1:0];
@@ -585,15 +609,21 @@ module axi_spi_engine #(
       .s_axis_ready(offload_sync_ready),
       .s_axis_valid(offload_sync_valid),
       .s_axis_data(offload_sync_data),
+      .m_axis_tkeep (),
+      .m_axis_tlast (),
       .s_axis_room(),
       .s_axis_full(),
+      .m_axis_almost_empty (),
       .m_axis_aclk(clk),
       .m_axis_aresetn(up_sw_resetn),
       .m_axis_ready(1'b1),
       .m_axis_valid(offload_sync_fifo_valid),
       .m_axis_data(offload_sync_fifo_data),
+      .s_axis_tkeep ('d0),
+      .s_axis_tlast ('d0),
       .m_axis_level(),
-      .m_axis_empty());
+      .m_axis_empty(),
+      .s_axis_almost_full ());
 
   end else begin /* ASYNC_SPI_CLK == 0 */
 

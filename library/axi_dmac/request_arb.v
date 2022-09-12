@@ -431,16 +431,22 @@ module request_arb #(
     .s_axis_valid(src_bl_valid),
     .s_axis_ready(src_bl_ready),
     .s_axis_full(),
+    .m_axis_tkeep (),
+    .m_axis_tlast (),
     .s_axis_data(src_burst_length),
     .s_axis_room(),
+    .m_axis_almost_empty (),
 
     .m_axis_aclk(dest_clk),
     .m_axis_aresetn(dest_resetn),
     .m_axis_valid(dest_bl_valid),
     .m_axis_ready(dest_bl_ready),
     .m_axis_data(dest_src_burst_length),
+    .s_axis_tkeep ('d0),
+    .s_axis_tlast ('d0),
     .m_axis_level(),
-    .m_axis_empty());
+    .m_axis_empty(),
+    .s_axis_almost_full ());
 
   // Adapt burst length from source width to destination width by either
   // truncation or completion with ones.
@@ -761,16 +767,22 @@ module request_arb #(
     .s_axis_valid(rewind_req_valid),
     .s_axis_ready(rewind_req_ready),
     .s_axis_full(),
+    .m_axis_tkeep (),
+    .m_axis_tlast (),
     .s_axis_data(rewind_req_data),
     .s_axis_room(),
+    .m_axis_almost_empty (),
 
     .m_axis_aclk(req_clk),
     .m_axis_aresetn(req_resetn),
     .m_axis_valid(req_rewind_req_valid),
     .m_axis_ready(req_rewind_req_ready),
     .m_axis_data(req_rewind_req_data),
+    .s_axis_tkeep ('d0),
+    .s_axis_tlast ('d0),
     .m_axis_level(),
-    .m_axis_empty());
+    .m_axis_empty(),
+    .s_axis_almost_full ());
 
   end else begin
 
@@ -1015,10 +1027,13 @@ module request_arb #(
     .s_axis_valid(src_dest_valid_hs_masked),
     .s_axis_ready(src_dest_ready_hs),
     .s_axis_full(),
+    .m_axis_tkeep (),
+    .m_axis_tlast (),
     .s_axis_data({
       src_req_dest_address_cur,
       src_req_xlast_cur}),
     .s_axis_room(),
+    .m_axis_almost_empty (),
 
     .m_axis_aclk(dest_clk),
     .m_axis_aresetn(dest_resetn),
@@ -1027,8 +1042,11 @@ module request_arb #(
     .m_axis_data({
       dest_req_dest_address,
       dest_req_xlast}),
+    .s_axis_tkeep ('d0),
+    .s_axis_tlast ('d0),
     .m_axis_level(),
-    .m_axis_empty());
+    .m_axis_empty(),
+    .s_axis_almost_full ());
 
   util_axis_fifo #(
     .DATA_WIDTH(DMA_ADDRESS_WIDTH_DEST + DMA_ADDRESS_WIDTH_SRC + BYTES_PER_BURST_WIDTH + 2),
@@ -1040,6 +1058,8 @@ module request_arb #(
     .s_axis_valid(req_src_valid),
     .s_axis_ready(req_src_ready),
     .s_axis_full(),
+    .m_axis_tkeep (),
+    .m_axis_tlast (),
     .s_axis_data({
       req_dest_address,
       req_src_address,
@@ -1047,6 +1067,7 @@ module request_arb #(
       req_sync_transfer_start,
       req_xlast}),
     .s_axis_room(),
+    .m_axis_almost_empty (),
 
     .m_axis_aclk(src_clk),
     .m_axis_aresetn(src_resetn),
@@ -1059,8 +1080,11 @@ module request_arb #(
       src_req_last_beat_bytes,
       src_req_sync_transfer_start,
       src_req_xlast}),
+    .s_axis_tkeep ('d0),
+    .s_axis_tlast ('d0),
     .m_axis_level(),
-    .m_axis_empty());
+    .m_axis_empty(),
+    .s_axis_almost_full ());
 
   // Save the descriptor in the source clock domain since the submission to
   // destination is delayed.
@@ -1098,11 +1122,21 @@ module request_arb #(
     .s_axis_valid(src_response_valid),
     .s_axis_ready(src_response_ready),
     .s_axis_empty(src_response_empty),
+    .m_axis_tkeep (),
+    .m_axis_tlast (),
+    .m_axis_level (),
+    .m_axis_empty (),
+    .m_axis_almost_empty (),
     .s_axis_data(src_response_resp),
     .m_axis_aclk(req_clk),
     .m_axis_aresetn(req_resetn),
     .m_axis_valid(response_src_valid),
     .m_axis_ready(response_src_ready),
+    .s_axis_tkeep ('d0),
+    .s_axis_tlast ('d0),
+    .s_axis_room (),
+    .s_axis_full (),
+    .s_axis_almost_full (),
     .m_axis_data(response_src_resp));
   assign src_response_empty = 1'b1;
   assign src_response_ready = 1'b1;
