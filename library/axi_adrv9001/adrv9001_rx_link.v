@@ -106,7 +106,8 @@ module adrv9001_rx_link #(
       .idata (sdr_data_0),
       .ivalid (adc_valid),
       .strobe (sdr_data_strobe),
-      .odata (sdr_data_0_aligned));
+      .odata (sdr_data_0_aligned),
+      .ovalid ());
 
     adrv9001_aligner4 i_rx_aligner4_1 (
       .clk (adc_clk_div),
@@ -114,7 +115,8 @@ module adrv9001_rx_link #(
       .idata (sdr_data_1),
       .ivalid (adc_valid),
       .strobe (sdr_data_strobe),
-      .odata (sdr_data_1_aligned));
+      .odata (sdr_data_1_aligned),
+      .ovalid ());
 
     adrv9001_aligner4 i_rx_aligner4_2 (
       .clk (adc_clk_div),
@@ -122,7 +124,8 @@ module adrv9001_rx_link #(
       .idata (sdr_data_2),
       .ivalid (adc_valid),
       .strobe (sdr_data_strobe),
-      .odata (sdr_data_2_aligned));
+      .odata (sdr_data_2_aligned),
+      .ovalid ());
 
     adrv9001_aligner4 i_rx_aligner4_3 (
       .clk (adc_clk_div),
@@ -130,7 +133,8 @@ module adrv9001_rx_link #(
       .idata (sdr_data_3),
       .ivalid (adc_valid),
       .strobe (sdr_data_strobe),
-      .odata (sdr_data_3_aligned));
+      .odata (sdr_data_3_aligned),
+      .ovalid ());
 
     adrv9001_aligner4 i_rx_aligner4_strobe (
       .clk (adc_clk_div),
