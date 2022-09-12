@@ -260,7 +260,8 @@ module adrv9001_rx_link #(
       .idata (data_2),
       .ivalid (data_valid),
       .strobe (data_strobe),
-      .odata (rx_data8_2_aligned));
+      .odata (rx_data8_2_aligned),
+      .ovalid ());
 
     adrv9001_aligner8 i_rx_aligner8_3(
       .clk (adc_clk_div),
@@ -268,7 +269,8 @@ module adrv9001_rx_link #(
       .idata (data_3),
       .ivalid (data_valid),
       .strobe (data_strobe),
-      .odata (rx_data8_3_aligned));
+      .odata (rx_data8_3_aligned),
+      .ovalid ());
   end
   endgenerate
 
@@ -278,7 +280,8 @@ module adrv9001_rx_link #(
     .idata (data_strobe),
     .ivalid (data_valid),
     .strobe (data_strobe),
-    .odata (rx_data8_strobe_aligned));
+    .odata (rx_data8_strobe_aligned),
+    .ovalid ());
 
   adrv9001_pack #(
     .WIDTH (8)
