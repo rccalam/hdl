@@ -366,6 +366,7 @@ module axi_ad7616 #(
       .m_axis_data(m_axis_data_s),
       .m_axis_ready(m_axis_ready_s),
       .m_axis_valid(m_axis_valid_s),
+      .m_axis_xfer_req (),
       .fifo_wr_en(adc_valid),
       .fifo_wr_data(adc_data),
       .fifo_wr_sync(adc_sync),
