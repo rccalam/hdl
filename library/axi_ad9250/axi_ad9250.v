@@ -115,6 +115,10 @@ module axi_ad9250 #(
     .adc_valid ({adc_valid_b,adc_valid_a}),
     .adc_data ({adc_data_b,adc_data_a}),
     .adc_dovf (adc_dovf),
+    .adc_sync_in ('d0),
+    .adc_sync_manual_req_out (),
+    .adc_sync_manual_req_in ('d0),
+    .adc_rst (),
 
     .s_axi_aclk (s_axi_aclk),
     .s_axi_aresetn (s_axi_aresetn),
