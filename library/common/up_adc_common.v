@@ -99,15 +99,15 @@ module up_adc_common #(
   output      [11:0]  up_drp_addr,
   output      [31:0]  up_drp_wdata,
   input       [31:0]  up_drp_rdata,
-  output      [31:0]  adc_custom_write,
-  input       [31:0]  adc_custom_read,
   input               up_drp_ready,
   input               up_drp_locked,
 
   // ADC custom read/write interface
   
   output      [31:0]  adc_custom_wr,
+  output              up_write_req,
   input       [31:0]  adc_custom_rd,
+  output              up_read_req,
 
   // user channel control
 
@@ -186,6 +186,8 @@ module up_adc_common #(
 
   assign up_wreq_s = (up_waddr[13:7] == {COMMON_ID,1'b0}) ? up_wreq : 1'b0;
   assign up_rreq_s = (up_raddr[13:7] == {COMMON_ID,1'b0}) ? up_rreq : 1'b0;
+  assign up_write_req = (up_waddr[6:0] == 7'h20) ? up_wreq : 1'b0;
+  assign up_read_req = (up_raddr[6:0] == 7'h21) ? up_rreq :1'b0;
 
   // processor write interface
 
@@ -478,7 +480,6 @@ module up_adc_common #(
           7'h1d: up_rdata_int <= {14'd0, up_drp_locked, up_drp_status_s, 16'b0};
           7'h1e: up_rdata_int <= up_drp_wdata;
           7'h1f: up_rdata_int <= up_drp_rdata_hold_s;
-          7'h20: up_rdata_int <= adc_custom_wr;
           7'h21: up_rdata_int <= adc_custom_rd;
           7'h22: up_rdata_int <= {29'd0, up_status_ovf, 2'b0};
           7'h23: up_rdata_int <= 32'd8;

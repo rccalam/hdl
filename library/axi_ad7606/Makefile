@@ -7,6 +7,7 @@
 LIBRARY_NAME := axi_ad7606
 
 GENERIC_DEPS += ../common/ad_datafmt.v
+GENERIC_DEPS += ../common/ad_pnmon.v
 GENERIC_DEPS += ../common/ad_rst.v
 GENERIC_DEPS += ../common/up_adc_channel.v
 GENERIC_DEPS += ../common/up_adc_common.v
@@ -18,6 +19,7 @@ GENERIC_DEPS += ../common/up_xfer_status.v
 GENERIC_DEPS += ../common/ad_edge_detect.v
 GENERIC_DEPS += axi_ad7606.v
 GENERIC_DEPS += axi_ad7606_pif.v
+GENERIC_DEPS += axi_ad7606_pn_mon.v
 
 XILINX_DEPS += ../xilinx/common/ad_dcfilter.v
 XILINX_DEPS += ../xilinx/common/ad_rst_constr.xdc

@@ -39,6 +39,7 @@ module axi_ad7606 #(
 
   parameter       ID = 0,
   parameter       IF_TYPE = 1,
+  parameter       ADC_READ_MODE = 1,
   parameter       EXTERNAL_CLK = 0
 ) (
 
@@ -95,6 +96,9 @@ module axi_ad7606 #(
   output      [15:0]      adc_data_5,
   output      [15:0]      adc_data_6,
   output      [15:0]      adc_data_7,
+  output      [15:0]      adc_crc,
+  output                  adc_pn_oos,
+  output                  adc_pn_err,
   output                  adc_enable_0,
   output                  adc_enable_1,
   output                  adc_enable_2,
@@ -142,9 +146,12 @@ module axi_ad7606 #(
 
   wire                              adc_clk_s;
 
-  wire                              rd_req_s;
+  wire                              adc_rd_req[0:7];
+  wire                              rd_req_pif;
+
   wire                              wr_req_s;
   wire    [15:0]                    wr_data_s;
+  wire                              rd_req_s;
   wire    [15:0]                    rd_data_s;
   wire                              rd_valid_s;
   wire                              m_axis_ready_s;
@@ -169,6 +176,8 @@ module axi_ad7606 #(
   assign adc_enable_5 = adc_enable[5];
   assign adc_enable_6 = adc_enable[6];
   assign adc_enable_7 = adc_enable[7];
+
+  assign rd_req_pif = adc_rd_req[0] | adc_rd_req[1] | adc_rd_req[2] | adc_rd_req[3] | adc_rd_req[4] | adc_rd_req[5] | adc_rd_req[6] | adc_rd_req[7] | rd_req_s;
 
   // processor read interface
 
@@ -215,7 +224,8 @@ module axi_ad7606 #(
     genvar i;
     for (i = 0; i < 8; i = i + 1) begin
       up_adc_channel #(
-        .CHANNEL_ID(i)
+        .CHANNEL_ID(i),
+        .RD_DATA_ADC_ENABLE(1'b1)
       ) i_up_adc_channel (
         .adc_clk (adc_clk_s),
         .adc_rst (adc_reset_s),
@@ -240,7 +250,7 @@ module axi_ad7606 #(
         .up_adc_pn_oos (),
         .up_adc_or (),
         .adc_read_data (rd_data_s),
-        .adc_read_req (rd_req_s),
+        .adc_read_req (adc_rd_req[i]),
         .up_usr_datatype_be (),
         .up_usr_datatype_signed (),
         .up_usr_datatype_shift (),
@@ -261,14 +271,16 @@ module axi_ad7606 #(
         .up_waddr (up_waddr_s),
         .up_wdata (up_wdata_s),
         .up_wack (up_wack_s[i]),
-        .up_rreq (up_rreq),
-        .up_raddr (up_raddr),
+        .up_rreq (up_rreq_s),
+        .up_raddr (up_raddr_s),
         .up_rdata (up_rdata_s[i]),
         .up_rack (up_rack_s[i]));
     end
   endgenerate
 
-  axi_ad7606_pif i_ad7606_parallel_interface (
+  axi_ad7606_pif #(
+    .ADC_READ_MODE (ADC_READ_MODE)
+  ) i_ad7606_parallel_interface (
     .cs_n (rx_cs_n),
     .db_o (rx_db_o),
     .db_i (rx_db_i),
@@ -286,6 +298,9 @@ module axi_ad7606 #(
     .adc_data_5 (adc_data_5),
     .adc_data_6 (adc_data_6),
     .adc_data_7 (adc_data_7),
+    .adc_crc (adc_crc),
+    .adc_pn_oos (adc_pn_oos),
+    .adc_pn_err (adc_pn_err),
     .adc_valid (adc_valid),
     .clk (adc_clk_s),
     .rstn (up_rstn),
@@ -327,6 +342,10 @@ module axi_ad7606 #(
     .up_drp_rdata (),
     .up_drp_ready (),
     .up_drp_locked (),
+    .up_write_req (wr_req_s),
+    .adc_custom_wr (wr_data_s),
+    .up_read_req (rd_req_s),
+    .adc_custom_rd (rd_data_s),
     .up_usr_chanmax_out (),
     .up_usr_chanmax_in (),
     .up_adc_gpio_in (),
@@ -375,5 +394,27 @@ module axi_ad7606 #(
     .up_raddr (up_raddr_s),
     .up_rdata (up_rdata),
     .up_rack (up_rack));
+
+  ila_ad7606 ila_ad7606 (
+    .clk(adc_clk),
+    .probe0(rx_db_o),
+    .probe1(rx_db_i),
+    .probe2(rx_db_t),
+    .probe3(rx_cs_n),
+    .probe4(rx_rd_n),
+    .probe5(rx_wr_n),
+    .probe6(rx_cnvst_n),
+    .probe7(rx_busy),
+    .probe8(first_data),
+    .probe9(adc_valid),
+    .probe10(adc_data_0),
+    .probe11(adc_data_1),
+    .probe12(adc_data_2),
+    .probe13(adc_data_3),
+    .probe14(adc_data_4),
+    .probe15(adc_data_5),
+    .probe16(adc_data_6),
+    .probe17(adc_data_7),
+    .probe18(adc_crc));
 
 endmodule

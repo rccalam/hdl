@@ -1,9 +1,9 @@
 
 # system level parameters
 
-#set CONV_RATE $ad_project_params(CONV_RATE)
+set CRC_EN $ad_project_params(CRC_EN)
 
-#puts "build parameters: CONV_RATE: $CONV_RATE"
+puts "build parameters: CRC_EN: $CRC_EN"
 
 # data, read and write lines
 
@@ -24,6 +24,11 @@ create_bd_port -dir I rx_first_data
 
 ad_ip_instance axi_ad7606 axi_ad7606
 ad_ip_parameter axi_ad7606 CONFIG.IF_TYPE 1
+if {$CRC_EN == 1} {
+  ad_ip_parameter axi_ad7606 CONFIG.ADC_READ_MODE 3
+} else {
+  ad_ip_parameter axi_ad7606 CONFIG.ADC_READ_MODE 1
+}
 ad_ip_parameter axi_ad7606 CONFIG.EXTERNAL_CLK 0
 
 ad_ip_instance axi_pwm_gen axi_pwm_gen
@@ -41,7 +46,11 @@ ad_ip_parameter axi_ad7606_dma CONFIG.DMA_DATA_WIDTH_SRC 16
 ad_ip_parameter axi_ad7606_dma CONFIG.DMA_DATA_WIDTH_DEST 64
 
 ad_ip_instance util_cpack2 ad7606_adc_pack
-ad_ip_parameter ad7606_adc_pack CONFIG.NUM_OF_CHANNELS 8
+if {$CRC_EN == 1} {
+  ad_ip_parameter ad7606_adc_pack CONFIG.NUM_OF_CHANNELS 9
+} else {
+  ad_ip_parameter ad7606_adc_pack CONFIG.NUM_OF_CHANNELS 8
+}
 ad_ip_parameter ad7606_adc_pack CONFIG.SAMPLE_DATA_WIDTH 16
 
 # interface connections
@@ -68,9 +77,17 @@ ad_connect  axi_ad7606/adc_valid ad7606_adc_pack/fifo_wr_en
 ad_connect  ad7606_adc_pack/packed_fifo_wr axi_ad7606_dma/fifo_wr
 ad_connect  ad7606_adc_pack/fifo_wr_overflow axi_ad7606/adc_dovf
 
-for {set i 0} {$i < 8} {incr i} {
-  ad_connect axi_ad7606/adc_data_$i ad7606_adc_pack/fifo_wr_data_$i
-  ad_connect axi_ad7606/adc_enable_$i ad7606_adc_pack/enable_$i
+if {$CRC_EN == 1} {
+  for {set i 0} {$i < 8} {incr i} {
+    ad_connect axi_ad7606/adc_data_$i ad7606_adc_pack/fifo_wr_data_$i
+    ad_connect axi_ad7606/adc_enable_$i ad7606_adc_pack/enable_$i
+  }
+  ad_connect axi_ad7606/adc_crc ad7606_adc_pack/fifo_wr_data_8
+} else {
+  for {set i 0} {$i < 8} {incr i} {
+    ad_connect axi_ad7606/adc_data_$i ad7606_adc_pack/fifo_wr_data_$i
+    ad_connect axi_ad7606/adc_enable_$i ad7606_adc_pack/enable_$i
+  }
 }
 
 # interconnect

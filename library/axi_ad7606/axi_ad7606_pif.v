@@ -65,6 +65,9 @@ module axi_ad7606_pif #(
   output  reg [15:0]      adc_data_5,
   output  reg [15:0]      adc_data_6,
   output  reg [15:0]      adc_data_7,
+  output      [15:0]      adc_crc,
+  output                  adc_pn_oos,
+  output                  adc_pn_err,
   output  reg             adc_valid,
 
   // register access
@@ -115,7 +118,8 @@ module axi_ad7606_pif #(
   reg                 read_ch_data = 1'd0;
 
   // internal wires
-  
+
+  wire        [15:0]  adc_crc_s;
   wire                cnvst;
   wire                end_of_conv;
   wire                start_transfer_s;
@@ -175,7 +179,7 @@ module axi_ad7606_pif #(
   assign cs_high_edge_s = (!cs_high_d & cs_high_s) ? 1 : 0;
   assign cs_high_s = (transfer_state_next == CS_HIGH) ? 1 : 0;
 
-  // first data changes on it's on or it changes when rd_n is deaserted ????????
+  // first data changes on it's on or it changes when rd_n is deaserted
   always @(posedge clk) begin
     if (rstn == 1'b0) begin
       first_data_d <=  1'b0;
@@ -226,7 +230,7 @@ module axi_ad7606_pif #(
             adc_data_7 <= rd_data;
           end
           4'd8 : begin
-            crc_data <= rd_data;
+            crc_data <= adc_crc_s;
           end
         endcase
       end
@@ -234,6 +238,7 @@ module axi_ad7606_pif #(
     end
   end
 
+  assign adc_crc = (ADC_READ_MODE == CRC_ENABLED) ? crc_data : 16'b0;
   // FSM state register
 
   always @(posedge clk) begin
@@ -291,5 +296,13 @@ module axi_ad7606_pif #(
   assign db_t = ~wr_req_d;
   assign rd_n = ((transfer_state == CNTRL_LOW) && ((rd_conv_d == 1'b1) || rd_req_d == 1'b1)) ? 1'b0 : 1'b1;
   assign wr_n = ((transfer_state == CNTRL_LOW) && (wr_req_d == 1'b1)) ? 1'b0 : 1'b1;
+
+  axi_ad7606_pn_mon i_axi_ad7606_pn_mon (
+    .adc_clk (clk),
+    .adc_valid (adc_valid),
+    .adc_data (rd_data),
+    .adc_pn_oos (adc_pn_oos),
+    .adc_pn_err (adc_pn_err),
+    .adc_crc_data (adc_crc_s));
 
 endmodule
