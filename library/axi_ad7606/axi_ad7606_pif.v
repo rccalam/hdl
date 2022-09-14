@@ -234,7 +234,7 @@ module axi_ad7606_pif #(
           end
         endcase
       end
-      adc_valid <= (channel_counter == 4'd8) ? rd_valid_d : 1'b0 ;
+      adc_valid <= (channel_counter == 4'd8) || (wr_req_d | rd_req_d) ? rd_valid_d : 1'b0 ;
     end
   end
 
@@ -267,7 +267,8 @@ module axi_ad7606_pif #(
           (wr_req_d | rd_req_d  | rd_conv_d) ? CS_HIGH : CNTRL_HIGH;
       end
       CS_HIGH : begin
-        transfer_state_next <= (channel_counter == nr_rd_burst) ? IDLE : CNTRL_LOW;
+        transfer_state_next <= (channel_counter == nr_rd_burst) ||
+                               (wr_req_d | rd_req_d) ? IDLE : CNTRL_LOW;
       end
       default : begin
         transfer_state_next <= IDLE;
