@@ -107,6 +107,7 @@ module up_adc_common #(
   output      [31:0]  adc_custom_wr,
   output              up_write_req,
   input       [31:0]  adc_custom_rd,
+  input               adc_read_valid,
   output              up_read_req,
 
   // user channel control
@@ -170,6 +171,7 @@ module up_adc_common #(
 
   wire                up_wreq_s;
   wire                up_rreq_s;
+  wire                up_rack_s;
   wire                up_status_s;
   wire                up_sync_status_s;
   wire                up_status_ovf_s;
@@ -186,6 +188,7 @@ module up_adc_common #(
 
   assign up_wreq_s = (up_waddr[13:7] == {COMMON_ID,1'b0}) ? up_wreq : 1'b0;
   assign up_rreq_s = (up_raddr[13:7] == {COMMON_ID,1'b0}) ? up_rreq : 1'b0;
+  assign up_rack_s = (up_raddr[6:0] == 7'h21) ? up_rreq_s : up_rreq_s &  adc_read_valid;
   assign up_write_req = (up_waddr[6:0] == 7'h20) ? up_wreq : 1'b0;
   assign up_read_req = (up_raddr[6:0] == 7'h21) ? up_rreq :1'b0;
 
@@ -452,8 +455,8 @@ module up_adc_common #(
       up_rack_int <= 'd0;
       up_rdata_int <= 'd0;
     end else begin
-      up_rack_int <= up_rreq_s;
-      if (up_rreq_s == 1'b1) begin
+      up_rack_int <= up_rack_s;
+      if (up_rack_s == 1'b1) begin
         case (up_raddr[6:0])
           7'h00: up_rdata_int <= VERSION;
           7'h01: up_rdata_int <= ID;
